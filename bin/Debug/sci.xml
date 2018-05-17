@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<courses>
+  <course id="1" Criteria="eaq" Excellent="f" Good="wq" Satisfactory="qf" Pass="qwf" Fail="qwf" />
+  <course id="2" Criteria="qwf" Excellent="qf" Good="qf" Satisfactory="qf" Pass="qf" Fail="qf" />
+</courses>
