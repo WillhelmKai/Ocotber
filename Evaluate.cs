@@ -34,6 +34,7 @@ namespace Evaluate
 
         private void Evaluate_Load(object sender, EventArgs e)
         {
+            //Hello World
             string xmlpath = @"task.xml";
             XDocument xdoc = XDocument.Load(xmlpath);
             var query = from n in xdoc.Descendants("task")
