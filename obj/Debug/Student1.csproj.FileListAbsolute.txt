@@ -1,0 +1,3 @@
+C:\Users\Stonylix\source\repos\WindowsFormsApp6\obj\Debug\Student1.csprojResolveAssemblyReference.cache
+C:\Users\Stonylix\source\repos\WindowsFormsApp6\obj\Debug\WindowsFormsApp6.exe
+C:\Users\Stonylix\source\repos\WindowsFormsApp6\obj\Debug\WindowsFormsApp6.pdb
