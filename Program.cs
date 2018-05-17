@@ -8,6 +8,8 @@ namespace WindowsFormsApp6
 {
     static class Program
     {
+        //helloword
+        //hello world
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
