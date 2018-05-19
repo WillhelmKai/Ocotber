@@ -59,7 +59,7 @@ namespace WindowsFormsApp6
                             };
 
                 skinDataGridView1.DataSource = query.ToList();
-  //dfasfsd
+  //dfasfsdjjjj
             }
         }
 
