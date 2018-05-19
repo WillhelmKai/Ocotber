@@ -29,7 +29,7 @@ namespace WindowsFormsApp3
         {
             InitializeComponent();
             dgvr = myDGVR;
-            name = dgvr.Cells[0].Value.ToString();
+            name = dgvr.Cells[1].Value.ToString();
         }
 
         public Form6(string updatename)
@@ -48,42 +48,63 @@ namespace WindowsFormsApp3
 
         private void Form6_Load(object sender, EventArgs e)
         {
-            /* XmlDocument xdoc = new XmlDocument();
-             xdoc.Load("rubric.xml");
-             string path = "rubric.xml//courses [@id='" + name + " ']";
-             XmlNodeList nodelist = xdoc.SelectNode(path);*/
-            //string path = "//courses [@id='" + name + " ']//task";
-            string path = "rubric.xml";
-            DataSet myds = new DataSet();
-            myds.ReadXml(path);
-            dataGridView1.DataSource = myds.Tables[1];
-            // string path = "rubric.xml";
-            /*  XDocument xdoc = XDocument.Load(path);
-              var query = from n in xdoc.Descendants("task")
-                          select new
-                          {
+          
+            string strPath = @"rubric.xml";
+            XElement student = XElement.Load(strPath);
+            IEnumerable<XElement> stu = from st in student.Elements("courses")
+                                        where (string)st.Attribute("name") == name
+                                        select st;
+            var query1 = from n in stu.Elements()
+                         select new
+                         {
+                             name = name,
+                             row = n.Attribute("row").Value,
+                             Item = n.Attribute("Item").Value,
+                             Percentage = n.Attribute("Percentage").Value,
+                             A = n.Attribute("A").Value,
+                             B = n.Attribute("B").Value,
+                             C = n.Attribute("C").Value,
+                             D = n.Attribute("D").Value,
+                             F = n.Attribute("F").Value
+                         };
+            dataGridView1.DataSource = query1.ToList();
 
-                              //RubricName = name,
-                              id =n.Attribute("row").Value,
-                              Criteria = n.Attribute("Item").Value,
-                              Percentage = n.Attribute("Percentage").Value,
-                              Excellent = n.Attribute("A").Value,
-                              Good = n.Attribute("B").Value,
-                              Satisfy = n.Attribute("C").Value,
-                              Pass = n.Attribute("D").Value,
-                              Fail = n.Attribute("F").Value
-
-
-                          };
-              dataGridView1.DataSource = query.ToList();*/
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form5 f5 = new Form5();
-            f5.Show();
-            this.Hide();
+            int gradesum = 0;
+            XmlDataDocument xmlDoc = new XmlDataDocument();
+            xmlDoc.Load("rubric.xml");
+            XmlNodeList nodeList = xmlDoc.SelectSingleNode("UIC").ChildNodes;
+            int count = 0;
+            foreach (XmlNode xn in nodeList)
+            {
+                XmlElement xe = (XmlElement)xn;
+
+                if (xe.GetAttribute("name") == name)
+                {
+                    XmlNodeList nls = xe.ChildNodes;
+                    foreach (XmlNode xn1 in nls)
+                    {
+                        gradesum = gradesum + Convert.ToInt32(xn1.Attributes[2].Value);
+
+                    }
+
+                }
+            }
+
+            if (gradesum == 100)
+            {
+                Form5 f5 = new Form5();
+                f5.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("You should make total percentage as 100");
+            }
         }
     }
 }

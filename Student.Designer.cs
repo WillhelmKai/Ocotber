@@ -43,9 +43,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(211, 118);
+            this.button1.Location = new System.Drawing.Point(190, 106);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(139, 61);
+            this.button1.Size = new System.Drawing.Size(125, 55);
             this.button1.TabIndex = 0;
             this.button1.Text = "Import";
             this.button1.UseVisualStyleBackColor = true;
@@ -53,9 +53,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(211, 248);
+            this.button2.Location = new System.Drawing.Point(190, 223);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(139, 61);
+            this.button2.Size = new System.Drawing.Size(125, 55);
             this.button2.TabIndex = 1;
             this.button2.Text = "View";
             this.button2.UseVisualStyleBackColor = true;
@@ -63,9 +63,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(211, 380);
+            this.button3.Location = new System.Drawing.Point(190, 342);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(139, 61);
+            this.button3.Size = new System.Drawing.Size(125, 55);
             this.button3.TabIndex = 2;
             this.button3.Text = "Back";
             this.button3.UseVisualStyleBackColor = true;
@@ -73,14 +73,14 @@
             // 
             // Student
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(561, 557);
+            this.ClientSize = new System.Drawing.Size(505, 501);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Student";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

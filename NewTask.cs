@@ -37,6 +37,7 @@ namespace course
             var query = from n in address.Elements()
                         select new
                         {
+                            CourseName= n.Attribute("CourseName").Value,
                             Task = n.Attribute("Task").Value,
                             Rubric = n.Attribute("Rubric").Value                       
                         };
@@ -68,54 +69,81 @@ namespace course
 
         private void NewTask_Load(object sender, EventArgs e)
         {
-
+            XmlDocument myxml = new XmlDocument();
+            myxml.Load("rubric.xml");
+            XmlNode demo = myxml.DocumentElement;
+            foreach (XmlNode node in demo.ChildNodes)
+            {
+                comboBox2.Items.Add(node.Attributes[1].Value);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (File.Exists(filename))
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(filename);
-                XmlNode node = doc.SelectSingleNode("//courses");
-                XmlNode node1 = doc.CreateElement("task");
-                node1.Attributes.Append(CreateAttribute(node1, "CourseName", course));
-                node1.Attributes.Append(CreateAttribute(node1, "Task", textBox1.Text));
-                node1.Attributes.Append(CreateAttribute(node1, "Rubric", comboBox2.Text));
-                node.AppendChild(node1);
 
-                doc.Save(filename);
+            if (textBox1.Text == "" || comboBox2.Text == "")
+            {
+                MessageBox.Show("Please input all the information!!");
 
             }
             else
             {
-                XmlDocument doc = new XmlDocument();
-                XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-                doc.AppendChild(dec);
-                XmlElement root = doc.CreateElement("courses");
-                doc.AppendChild(root);
+                if (File.Exists(filename))
+                {
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(filename);
+                    XmlNode node = doc.SelectSingleNode("//courses");
+                    XmlNode node1 = doc.CreateElement("task");
+                    node1.Attributes.Append(CreateAttribute(node1, "CourseName", course));
+                    node1.Attributes.Append(CreateAttribute(node1, "Task", textBox1.Text));
+                    node1.Attributes.Append(CreateAttribute(node1, "Rubric", comboBox2.Text));
+                    node.AppendChild(node1);
 
-                XmlNode node = doc.CreateElement("task");
-                node.Attributes.Append(CreateAttribute(node, "CourseName", course));
-                node.Attributes.Append(CreateAttribute(node, "Task", textBox1.Text));
-                node.Attributes.Append(CreateAttribute(node, "Rubric", comboBox2.Text));
-                root.AppendChild(node);
+                    doc.Save(filename);
 
-                doc.Save(filename);
+                }
+                else
+                {
+                    XmlDocument doc = new XmlDocument();
+                    XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
+                    doc.AppendChild(dec);
+                    XmlElement root = doc.CreateElement("courses");
+                    doc.AppendChild(root);
 
+                    XmlNode node = doc.CreateElement("task");
+                    node.Attributes.Append(CreateAttribute(node, "CourseName", course));
+                    node.Attributes.Append(CreateAttribute(node, "Task", textBox1.Text));
+                    node.Attributes.Append(CreateAttribute(node, "Rubric", comboBox2.Text));
+                    root.AppendChild(node);
+
+                    doc.Save(filename);
+
+                }
+
+                XElement root1 = XElement.Load(filename);
+                IEnumerable<XElement> address =
+                    from el in root1.Elements("courses")
+                    where (string)el.Attribute("CourseName") == course
+                    select el;
+
+
+                var query = from n in address.Elements()
+                            select new
+                            {
+                                CourseName = n.Attribute("CourseName").Value,
+                                Task = n.Attribute("Task").Value,
+                                Rubric = n.Attribute("Rubric").Value
+                            };
+                dataGridView1.DataSource = query.ToList();
             }
 
-            //display the data into the datagrideview
-            XDocument xdoc = XDocument.Load(filename);
-            var query = from n in xdoc.Descendants("task")
-                        select new
-                        {
-                            Task = n.Attribute("Task").Value,
-                            Rubric = n.Attribute("Rubric").Value             
-                        };
-            dataGridView1.DataSource = query.ToList();
+        }
 
-
+        private void button2_Click(object sender, EventArgs e)
+        {
+            CourseIndex form2 = new CourseIndex();
+            this.Hide();
+            form2.ShowDialog();
         }
     }
 }

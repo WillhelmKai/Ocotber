@@ -1,4 +1,5 @@
 ﻿using System;
+using Evaluate;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using WindowsFormsApp6;
+using System.IO;
 
 namespace Evaluate
 {
@@ -20,6 +23,7 @@ namespace Evaluate
         public int count=0;
         public int sumcount;
         public bool flag=true;
+        public bool evaflag;
         public mark()
         {
             InitializeComponent();
@@ -56,9 +60,9 @@ namespace Evaluate
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Evaluate f1 = new Evaluate();
-            f1.Show();
+            EVA eva = new EVA();
             this.Hide();
+            eva.ShowDialog();
         }
 
         private void mark_Load(object sender, EventArgs e)
@@ -85,12 +89,12 @@ namespace Evaluate
            string strPath = @"student.xml";
             XElement student = XElement.Load(strPath);
             IEnumerable<XElement> stu = from st in student.Elements("student")
-                                        where (string)st.Attribute("course") == course
+                                        where (string)st.Attribute("Course") == course
                                         select st;
             var query1 = from n in stu.Elements()
                          select new
                          {
-                             Studentname = n.Attribute("id").Value
+                             Studentname = n.Attribute("ID").Value
                          };
             dataGridView2.DataSource = query1.ToList();
             
@@ -205,46 +209,90 @@ namespace Evaluate
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int i;
-            XmlDocument doc = new XmlDocument();
-            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-            doc.AppendChild(dec);
-            //create the root element
-            XmlElement root = doc.CreateElement("UIC");
-            doc.AppendChild(root);
-            //create the "Students" element
-            /*XmlElement element = doc.CreateElement("Students");
-            root.AppendChild(element);*/
-            for (i = 0; i < dataGridView2.RowCount; i++)
+            if (!File.Exists("evaluate.xml"))
             {
-                if (dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString() =="0")
-                {
-                    flag = false;
-                }
-            }
-
-            if(flag)
-            {
+                int i;
+                XmlDocument doc = new XmlDocument();
+                XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
+                doc.AppendChild(dec);
+                //create the root element
+                XmlElement root = doc.CreateElement("UIC");
+                doc.AppendChild(root);
+                //create the "Students" element
+                /*XmlElement element = doc.CreateElement("Students");
+                root.AppendChild(element);*/
                 for (i = 0; i < dataGridView2.RowCount; i++)
                 {
-                    XmlNode courses = doc.CreateElement("student");
-                    courses.Attributes.Append(CreateAttribute(courses, "id", dataGridView2.Rows[i].Cells[0].Value.ToString()));
-                    root.AppendChild(courses);
-                    XmlNode task = doc.CreateElement("task");
-                    task.Attributes.Append(CreateAttribute(task, "CourseName", course));
-                    task.Attributes.Append(CreateAttribute(task, "Task", taskname));
-                    task.Attributes.Append(CreateAttribute(task, "Rubric", name));
-                    task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
-                    courses.AppendChild(task);
+                    if (dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString() == "0")
+                    {
+                        flag = false;
+                    }
                 }
-                doc.Save("evaluate.xml");
-                MessageBox.Show("XML File created ! ");
+
+
+
+                if (flag)
+                {
+                    for (i = 0; i < dataGridView2.RowCount; i++)
+                    {
+                        XmlNode courses = doc.CreateElement("student");
+                        courses.Attributes.Append(CreateAttribute(courses, "id", dataGridView2.Rows[i].Cells[0].Value.ToString()));
+                        root.AppendChild(courses);
+                        XmlNode task = doc.CreateElement("task");
+                        task.Attributes.Append(CreateAttribute(task, "CourseName", course));
+                        task.Attributes.Append(CreateAttribute(task, "Task", taskname));
+                        task.Attributes.Append(CreateAttribute(task, "Rubric", name));
+                        task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
+                        courses.AppendChild(task);
+                    }
+                    doc.Save("evaluate.xml");
+                    MessageBox.Show("XML File created ! ");
+                }
+                else
+                {
+                    MessageBox.Show("All students should be graded");
+                }
             }
             else
             {
-                MessageBox.Show("All students should be graded");
-            }
-               
-        }
+                int countstu = 0;
+                XmlDocument doc1 = new XmlDocument();
+                doc1.Load("evaluate.xml");
+                XmlNode node = doc1.SelectSingleNode("//UIC");
+                XmlNodeList xnList = node.ChildNodes;
+                for (; countstu < dataGridView2.RowCount; countstu++)
+                {
+                    evaflag = true;
+                    foreach (XmlNode xn in xnList)
+                    {
+                        if (xn.Attributes[0].Value.Equals(dataGridView2.Rows[countstu].Cells[0].Value.ToString()))
+                        {
+                            XmlNode task = doc1.CreateElement("task");
+                            task.Attributes.Append(CreateAttribute(task, "CourseName", course));
+                            task.Attributes.Append(CreateAttribute(task, "Task", taskname));
+                            task.Attributes.Append(CreateAttribute(task, "Rubric", name));
+                            task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
+                            xn.AppendChild(task);
+                            evaflag = false;
+
+                        }
+
+                    }
+                    if (evaflag)
+                    {
+                        XmlNode courses = doc1.CreateElement("student");
+                        courses.Attributes.Append(CreateAttribute(courses, "id", dataGridView2.Rows[countstu].Cells[0].Value.ToString()));
+                        node.AppendChild(courses);
+                        XmlNode task = doc1.CreateElement("task");
+                        task.Attributes.Append(CreateAttribute(task, "CourseName", course));
+                        task.Attributes.Append(CreateAttribute(task, "Task", taskname));
+                        task.Attributes.Append(CreateAttribute(task, "Rubric", name));
+                        task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
+                        courses.AppendChild(task);
+                    }
+                }
+
+                doc1.Save("evaluate.xml");
+            }    }
     }
 }

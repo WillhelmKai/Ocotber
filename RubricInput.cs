@@ -10,6 +10,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.IO;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 namespace WindowsFormsApp3
 {
@@ -21,6 +22,9 @@ namespace WindowsFormsApp3
         public String row;
         public bool flag = true;
         public String finalname;
+        public bool text = true;
+        public bool grade = true;
+        public bool countmodify = true;
         public Form2()
         {
             InitializeComponent();
@@ -76,20 +80,76 @@ namespace WindowsFormsApp3
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
 
-            // if the file exists, we'll add the student into the xml
-            if (File.Exists("rubric.xml"))
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
-                //MessageBox.Show("File exist ");
-                //insert new student info
+                MessageBox.Show("You should enter content in the textbox");
+                text = false;
+            }
+            if (string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                MessageBox.Show("You should enter content in the textbox");
+                text = false;
+            }
+            if (string.IsNullOrWhiteSpace(textBox3.Text))
+            {
+                MessageBox.Show("You should enter content in the textbox");
+                text = false;
+            }
+            if (string.IsNullOrWhiteSpace(textBox4.Text))
+            {
+                MessageBox.Show("You should enter content in the textbox");
+                text = false;
+            }
+            if (string.IsNullOrWhiteSpace(textBox5.Text))
+            {
+                MessageBox.Show("You should enter content in the textbox");
+                text = false;
+            }
+            if (string.IsNullOrWhiteSpace(textBox6.Text))
+            {
+                MessageBox.Show("You should enter content in the textbox");
+                text = false;
+            }
+            if (string.IsNullOrWhiteSpace(textBox7.Text))
+            {
+                MessageBox.Show("You should enter content in the textbox");
+                text = false;
+            }
+            string SuID = textBox1.Text.ToString();
+            Regex reg = new Regex("^[0-9]+$");
+            Match ma = reg.Match(SuID);
+            if (!ma.Success)
+            {
+                MessageBox.Show("You should enter integer in percentage");
+                text = false;
+            }
+            if(text)
+            {
+                if (Convert.ToInt32(textBox1.Text) > 100)
+                {
+                    MessageBox.Show("You shouldn't enter integer in percentage excceed 100");
+                    grade = false;
+                }
+
+            }
+            if(!countmodify)
+            {
+                count = 0;
+            }
+            // if the file exists, we'll add the student into the xml
+
+            //MessageBox.Show("File exist ");
+            //insert new student info
+            if(text==true && grade==true)
+            {
                 XmlDocument doc = new XmlDocument();
                 doc.Load("rubric.xml");
                 XmlNode node = doc.SelectSingleNode("//UIC");
                 XmlNodeList xnList = node.ChildNodes;
                 foreach (XmlNode xn in xnList)
                 {
-                    if(xn.Attributes[1].Value.Equals(name))
+                    if (xn.Attributes[1].Value.Equals(name))
                     {
                         flag = false;
                         id = xn.Attributes[0].Value;
@@ -104,7 +164,7 @@ namespace WindowsFormsApp3
                     node1.Attributes.Append(CreateAttribute(node1, "name", name));
                     node.AppendChild(node1);
                     XmlNode node2 = doc.CreateElement("task");
-                     row = String.Format("{0:F}", (float.Parse(id) + 0.10));
+                    row = String.Format("{0:F}", (float.Parse(id) + 0.10));
                     node2.Attributes.Append(CreateAttribute(node2, "row", row));
                     node2.Attributes.Append(CreateAttribute(node2, "Item", textBox7.Text));
                     node2.Attributes.Append(CreateAttribute(node, "Percentage", textBox1.Text));
@@ -117,7 +177,7 @@ namespace WindowsFormsApp3
                 }
                 else
                 {
-                    XmlNode node1 = doc.SelectSingleNode("//courses[@id='"+ id +"']");
+                    XmlNode node1 = doc.SelectSingleNode("//courses[@id='" + id + "']");
 
                     XmlNode node2 = doc.CreateElement("task");
                     row = String.Format("{0:F}", (float.Parse(node1.LastChild.Attributes[0].Value) + 0.10));
@@ -133,56 +193,33 @@ namespace WindowsFormsApp3
                 }
 
                 doc.Save("rubric.xml");  //Save the xml
-                string path = "rubric.xml";
-                DataSet myds = new DataSet();
-                myds.ReadXml(path);
-                dataGridView1.DataSource = myds.Tables[1];
-                /*  string xmlpath = finalname;
-              XDocument xdoc = XDocument.Load(xmlpath);
-              var query = from n in xdoc.Descendants("course")
-                          select new
-                          {
-                              id = n.Attribute("id").Value,
-                              Criteria = n.Attribute("Criteria").Value,
-                              Excellent = n.Attribute("Excellent").Value,
-                              Good = n.Attribute("Good").Value,
-                              Satisfactory = n.Attribute("Satisfactory").Value,
-                              Pass = n.Attribute("Pass").Value,
-                              Fail = n.Attribute("Fail").Value
-                          };
-              dataGridView1.DataSource = query.ToList();*/
 
-
-            }
-            else //The file does not exist, we'll create it
-            {
-               /* XmlDocument doc = new XmlDocument();
-                XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-                doc.AppendChild(dec);
-                //create the root element
-                XmlElement root = doc.CreateElement("UIC");
-                doc.AppendChild(root);
-                //create the "Students" element
-                XmlElement element = doc.CreateElement("courses");
-                element.Attributes.Append(CreateAttribute(element, "id", "1"));
-                element.Attributes.Append(CreateAttribute(element, "name", name));
-                root.AppendChild(element);
-                //create the "Student" element with attributes
-                XmlNode node = doc.CreateElement("task");
-                node.Attributes.Append(CreateAttribute(node, "row", "1.1"));
-                node.Attributes.Append(CreateAttribute(node, "Criteria", textBox7.Text));
-                node.Attributes.Append(CreateAttribute(node, "Percentage", textBox1.Text));
-                node.Attributes.Append(CreateAttribute(node, "Excellent", textBox2.Text));
-                node.Attributes.Append(CreateAttribute(node, "Good", textBox3.Text));
-                node.Attributes.Append(CreateAttribute(node, "Satisfactory", textBox4.Text));
-                node.Attributes.Append(CreateAttribute(node, "Pass", textBox5.Text));
-                node.Attributes.Append(CreateAttribute(node, "Fail", textBox6.Text));
-                element.AppendChild(node);
-
-                doc.Save("rubric.xml");*/
+                string strPath = @"rubric.xml";
+                XElement student = XElement.Load(strPath);
+                IEnumerable<XElement> stu = from st in student.Elements("courses")
+                                            where (string)st.Attribute("name") == name
+                                            select st;
+                var query1 = from n in stu.Elements()
+                             select new
+                             {
+                                 row = n.Attribute("row").Value,
+                                 Item = n.Attribute("Item").Value,
+                                 Percentage = n.Attribute("Percentage").Value,
+                                 A = n.Attribute("A").Value,
+                                 B = n.Attribute("B").Value,
+                                 C = n.Attribute("C").Value,
+                                 D = n.Attribute("D").Value,
+                                 F = n.Attribute("F").Value
+                             };
+                dataGridView1.DataSource = query1.ToList();
 
             }
-            
+
+
+
+
+
+
 
         }
 
@@ -241,6 +278,81 @@ namespace WindowsFormsApp3
         }
 
         private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            int gradesum = 0;
+            XmlDataDocument xmlDoc = new XmlDataDocument();
+            xmlDoc.Load("rubric.xml");
+            XmlNodeList nodeList = xmlDoc.SelectSingleNode("UIC").ChildNodes;
+            int count = 0;
+            foreach (XmlNode xn in nodeList)
+            {
+                XmlElement xe = (XmlElement)xn;
+
+                if (xe.GetAttribute("name") == name)
+                {
+                    XmlNodeList nls = xe.ChildNodes;
+                    foreach (XmlNode xn1 in nls)
+                    {
+                        gradesum= gradesum + Convert.ToInt32( xn1.Attributes[2].Value) ;
+                       
+                    }
+
+                }
+            }
+
+            if(gradesum==100)
+            {
+                Form1 f1 = new Form1();
+                f1.Show();
+                this.Hide();
+            }
+            else
+            {
+                countmodify = false;
+                string xmlpath = @"rubric.xml";
+                XmlDocument xmlDoc1 = new XmlDocument();
+                xmlDoc1.Load(xmlpath);
+                XmlNode root = xmlDoc1.SelectSingleNode("UIC");
+                XmlNodeList xnList = root.ChildNodes;
+                foreach (XmlNode xn in xnList)
+                {
+                    if (xn.Attributes[1].Value.ToString() == name)
+                    {
+
+                        root.RemoveChild(xn);
+
+                    }
+                }
+                xmlDoc1.Save(xmlpath);
+                MessageBox.Show("Total percentage should be 100, please enter rubric again");
+            }
+           
+
+            XElement student = XElement.Load("rubric.xml");
+            IEnumerable<XElement> stu = from st in student.Elements("courses")
+                                        where (string)st.Attribute("name") == name
+                                        select st;
+            var query1 = from n in stu.Elements()
+                         select new
+                         {
+                             row = n.Attribute("row").Value,
+                             Item = n.Attribute("Item").Value,
+                             Percentage = n.Attribute("Percentage").Value,
+                             A = n.Attribute("A").Value,
+                             B = n.Attribute("B").Value,
+                             C = n.Attribute("C").Value,
+                             D = n.Attribute("D").Value,
+                             F = n.Attribute("F").Value
+                         };
+            dataGridView1.DataSource = query1.ToList();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
         {
 
         }

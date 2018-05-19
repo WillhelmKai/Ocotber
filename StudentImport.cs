@@ -204,6 +204,9 @@ namespace WindowsFormsApp6
                         node2.Attributes.Append(CreateAttribute(node2, "Group", d));
                         node1.AppendChild(node2);
                     }
+
+                    xmlDoc.Save("student.xml");
+                    MessageBox.Show("This sheet has been added successful! ");
                 }
                 else
                 {
@@ -245,6 +248,9 @@ namespace WindowsFormsApp6
 
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
+        }
     }
 }

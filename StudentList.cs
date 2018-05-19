@@ -49,18 +49,23 @@ namespace WindowsFormsApp6
             {
                 string xmlpath = @"student.xml";
                 XDocument xdoc = XDocument.Load(xmlpath);
-                var query = from n in xdoc.Descendants("task")
+                var query = from n in xdoc.Descendants("task") 
                             select new
-                            {
-                               // Course = n.Attribute("Course").Value,
+                            {   Course = n.Parent.Attribute("Course").Value,
                                 SurName = n.Attribute("SurName").Value,
                                 FirstName = n.Attribute("FirstName").Value,
                                 ID = n.Attribute("ID").Value,
                                 Group = n.Attribute("Group").Value
                             };
-                skinDataGridView1.DataSource = query.ToList();
 
+                skinDataGridView1.DataSource = query.ToList();
+  
             }
+        }
+
+        private void skinDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

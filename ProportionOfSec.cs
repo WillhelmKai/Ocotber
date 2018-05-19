@@ -1,4 +1,5 @@
 ﻿using System;
+using Evaluate;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsApp6;
 
 namespace Evaluate
 {
@@ -19,9 +21,9 @@ namespace Evaluate
 
         private void Back_Click(object sender, EventArgs e)
         {
-            Evaluate form2 = new Evaluate();
+            EVA eva = new EVA();
             this.Hide();
-            form2.ShowDialog();
+            eva.ShowDialog();
         }
 
         private void button1_Click(object sender, EventArgs e)

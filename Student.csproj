@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E8F4B6DC-809C-423E-A24E-E4D5094D27C8}</ProjectGuid>
+    <ProjectGuid>{F47FACCF-0F8E-48B2-ADE4-178FEBC6372A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WindowsFormsApp6</RootNamespace>
     <AssemblyName>WindowsFormsApp6</AssemblyName>
@@ -78,11 +78,11 @@
     <Compile Include="CourseIndex.Designer.cs">
       <DependentUpon>CourseIndex.cs</DependentUpon>
     </Compile>
-    <Compile Include="Evaluate.cs">
+    <Compile Include="EVA.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Evaluate.Designer.cs">
-      <DependentUpon>Evaluate.cs</DependentUpon>
+    <Compile Include="EVA.Designer.cs">
+      <DependentUpon>EVA.cs</DependentUpon>
     </Compile>
     <Compile Include="Final_grade_page.cs">
       <SubType>Form</SubType>
@@ -95,6 +95,12 @@
     </Compile>
     <Compile Include="Grade.Designer.cs">
       <DependentUpon>Grade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gradelist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gradelist.Designer.cs">
+      <DependentUpon>Gradelist.cs</DependentUpon>
     </Compile>
     <Compile Include="mark.cs">
       <SubType>Form</SubType>
@@ -168,12 +174,6 @@
     <Compile Include="RubricUpdate.Designer.cs">
       <DependentUpon>RubricUpdate.cs</DependentUpon>
     </Compile>
-    <Compile Include="StudentImport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StudentImport.Designer.cs">
-      <DependentUpon>StudentImport.cs</DependentUpon>
-    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -194,6 +194,12 @@
     <Compile Include="Student.Designer.cs">
       <DependentUpon>Student.cs</DependentUpon>
     </Compile>
+    <Compile Include="StudentImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentImport.Designer.cs">
+      <DependentUpon>StudentImport.cs</DependentUpon>
+    </Compile>
     <Compile Include="StudentList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,14 +209,17 @@
     <EmbeddedResource Include="CourseIndex.resx">
       <DependentUpon>CourseIndex.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Evaluate.resx">
-      <DependentUpon>Evaluate.cs</DependentUpon>
+    <EmbeddedResource Include="EVA.resx">
+      <DependentUpon>EVA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Final_grade_page.resx">
       <DependentUpon>Final_grade_page.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Grade.resx">
       <DependentUpon>Grade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gradelist.resx">
+      <DependentUpon>Gradelist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="mark.resx">
       <DependentUpon>mark.cs</DependentUpon>
@@ -248,9 +257,6 @@
     <EmbeddedResource Include="RubricUpdate.resx">
       <DependentUpon>RubricUpdate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StudentImport.resx">
-      <DependentUpon>StudentImport.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -268,6 +274,9 @@
     </Compile>
     <EmbeddedResource Include="Student.resx">
       <DependentUpon>Student.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentImport.resx">
+      <DependentUpon>StudentImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StudentList.resx">
       <DependentUpon>StudentList.cs</DependentUpon>

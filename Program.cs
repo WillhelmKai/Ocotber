@@ -8,7 +8,6 @@ namespace WindowsFormsApp6
 {
     static class Program
     {
-        //hellow Mike
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
