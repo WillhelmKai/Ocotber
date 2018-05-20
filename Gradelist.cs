@@ -38,7 +38,9 @@ namespace WindowsFormsApp6
             var query = from n in xdoc.Descendants("grade")
                         select new
                         {
-                            id = n.Attribute("id").Value,
+                            id = n.Parent.Attribute("id").Value,
+                            firstname = n.Parent.Attribute("FirstName").Value,
+                            lastname = n.Parent.Attribute("SurName").Value,
                             course = n.Attribute("course").Value,
                             grade = n.Attribute("grade").Value
                         };

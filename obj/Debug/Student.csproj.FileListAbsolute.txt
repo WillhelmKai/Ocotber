@@ -34,7 +34,6 @@ C:\Users\k5300\Source\Repos\Ocotber\bin\Debug\WindowsFormsApp6.pdb
 C:\Users\k5300\Source\Repos\Ocotber\bin\Debug\CSkin.xml
 C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\Student.csprojResolveAssemblyReference.cache
 C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\course.CourseIndex.resources
-C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\Evaluate.Evaluate.resources
 C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\Evaluate.Final_grade_page.resources
 C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\Evaluate.Grade.resources
 C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\Evaluate.mark.resources
@@ -92,3 +91,5 @@ C:\Users\willh\source\repos\Ocotber\obj\Debug\Student.csproj.GenerateResource.Ca
 C:\Users\willh\source\repos\Ocotber\obj\Debug\Student.csproj.CoreCompileInputs.cache
 C:\Users\willh\source\repos\Ocotber\obj\Debug\WindowsFormsApp6.exe
 C:\Users\willh\source\repos\Ocotber\obj\Debug\WindowsFormsApp6.pdb
+C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\WindowsFormsApp6.EVA.resources
+C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\WindowsFormsApp6.Gradelist.resources

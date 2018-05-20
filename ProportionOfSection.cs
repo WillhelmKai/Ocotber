@@ -103,81 +103,153 @@ namespace Evaluate
                 xmlDoc.Save("task.xml");
                 MessageBox.Show("Saved");
 
-
-                //create grade list
-                XmlDocument doc = new XmlDocument();
-                XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-                doc.AppendChild(dec);
-                //create the root element
-                XmlElement root = doc.CreateElement("UIC");
-                doc.AppendChild(root);
-
-                XmlDataDocument xmlDoc1 = new XmlDataDocument();
-                xmlDoc1.Load("evaluate.xml");
-                XmlDataDocument xmlDoc2 = new XmlDataDocument();
-                xmlDoc2.Load("student.xml");
-                XmlNodeList newnodeList1 = xmlDoc2.SelectSingleNode("Students").ChildNodes;
-                XmlNodeList newnodeList = xmlDoc1.SelectSingleNode("UIC").ChildNodes;
-                double sumgrade;
-                foreach (XmlNode xn in newnodeList)
+                if (File.Exists("gradelist.xml"))
                 {
+                    XmlDataDocument xmlDoc0 = new XmlDataDocument();
+                    xmlDoc0.Load("gradelist.xml");
 
-                    XmlElement xe = (XmlElement)xn;
-                    XmlNodeList nls = xe.ChildNodes;
+                    XmlDataDocument xmlDoc1 = new XmlDataDocument();
+                    xmlDoc1.Load("evaluate.xml");
+                    XmlNodeList newnodeList = xmlDoc1.SelectSingleNode("UIC").ChildNodes;
 
-                  
+                    XmlDataDocument xmlDoc2 = new XmlDataDocument();
+                    xmlDoc2.Load("student.xml");
+                    XmlNodeList newnodeList1 = xmlDoc2.SelectSingleNode("Students").ChildNodes;
 
-                    int number = 0;
-                    sumgrade = 0;
-                    foreach (XmlNode xn1 in nls)
+                    double sumgrade;
+                    foreach (XmlNode xn in newnodeList)
                     {
-                        XmlElement newxe = (XmlElement)xn1;
-                        if (newxe.GetAttribute("CourseName") == CourseName)
-                        {
-                            flag = true;
-                            sumgrade = sumgrade + Convert.ToDouble(newxe.Attributes[3].Value)* (Convert.ToDouble(dataGridView1.Rows[number].Cells[1].Value))/100;
-                            number++;
-                        }
-                    }
-       
 
-                    foreach (XmlNode newxn in newnodeList1)
-                    {
-                        XmlElement newxe = (XmlElement)newxn;
-                        XmlNodeList newnls = newxe.ChildNodes;
+                        XmlElement xe = (XmlElement)xn;
+                        XmlNodeList nls = xe.ChildNodes;
 
-                        foreach (XmlNode newxn1 in newnls)
+
+
+                        int number = 0;
+                        sumgrade = 0;
+                        foreach (XmlNode xn1 in nls)
                         {
-                            XmlElement newtest = (XmlElement)newxn1;
-                            if (newtest.GetAttribute("ID") == xe.GetAttribute("id"))
+                            XmlElement newxe = (XmlElement)xn1;
+                            if (newxe.GetAttribute("CourseName") == CourseName)
                             {
-                                firstname = newtest.GetAttribute("FirstName");
-                                surname= newtest.GetAttribute("SurName");
+                                flag = true;
+                                sumgrade = sumgrade + Convert.ToDouble(newxe.Attributes[3].Value) * (Convert.ToDouble(dataGridView1.Rows[number].Cells[1].Value)) / 100;
+                                number++;
                             }
                         }
 
-                    }
+
+                        foreach (XmlNode newxn in newnodeList1)
+                        {
+                            XmlElement newxe1 = (XmlElement)newxn;
+                            XmlNodeList newnls = newxe1.ChildNodes;
+
+                            foreach (XmlNode newxn1 in newnls)
+                            {
+                                XmlElement newtest = (XmlElement)newxn1;
+                                if (newtest.GetAttribute("ID") == xe.GetAttribute("id"))
+                                {
+                                    firstname = newtest.GetAttribute("FirstName");
+                                    surname = newtest.GetAttribute("SurName");
+                                }
+                            }
+
+                        }
 
                         if (flag)
-                    {
+                        {
+                            XmlNode node = xmlDoc0.SelectSingleNode("//student[@id='" + xe.GetAttribute("id") + "'] ");
+                            XmlNode grade = xmlDoc0.CreateElement("grade");
+                            grade.Attributes.Append(CreateAttribute(grade, "course", CourseName));
+                            grade.Attributes.Append(CreateAttribute(grade, "grade", sumgrade.ToString()));
+                            node.AppendChild(grade);
+                        }
 
-                        XmlNode student = doc.CreateElement("student");
-                        student.Attributes.Append(CreateAttribute(student, "id", xe.GetAttribute("id")));
-                        student.Attributes.Append(CreateAttribute(student, "FirstName", firstname));
-                        student.Attributes.Append(CreateAttribute(student, "SurName", surname));
-                        root.AppendChild(student);
 
-                        XmlNode grade = doc.CreateElement("grade");
-                        grade.Attributes.Append(CreateAttribute(grade, "course", CourseName));
-                        grade.Attributes.Append(CreateAttribute(grade, "grade", sumgrade.ToString()));
-                        student.AppendChild(grade);
+
                     }
-                 
-   
+                    xmlDoc0.Save("gradelist.xml");
+                    
 
                 }
-                doc.Save("gradelist.xml");
-                MessageBox.Show("XML File created ! ");
+                else
+                {
+                    //create grade list
+                    XmlDocument doc = new XmlDocument();
+                    XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
+                    doc.AppendChild(dec);
+                    //create the root element
+                    XmlElement root = doc.CreateElement("UIC");
+                    doc.AppendChild(root);
+
+                    XmlDataDocument xmlDoc1 = new XmlDataDocument();
+                    xmlDoc1.Load("evaluate.xml");
+                    XmlDataDocument xmlDoc2 = new XmlDataDocument();
+                    xmlDoc2.Load("student.xml");
+                    XmlNodeList newnodeList1 = xmlDoc2.SelectSingleNode("Students").ChildNodes;
+                    XmlNodeList newnodeList = xmlDoc1.SelectSingleNode("UIC").ChildNodes;
+                    double sumgrade;
+                    foreach (XmlNode xn in newnodeList)
+                    {
+
+                        XmlElement xe = (XmlElement)xn;
+                        XmlNodeList nls = xe.ChildNodes;
+
+
+
+                        int number = 0;
+                        sumgrade = 0;
+                        foreach (XmlNode xn1 in nls)
+                        {
+                            XmlElement newxe = (XmlElement)xn1;
+                            if (newxe.GetAttribute("CourseName") == CourseName)
+                            {
+                                flag = true;
+                                sumgrade = sumgrade + Convert.ToDouble(newxe.Attributes[3].Value) * (Convert.ToDouble(dataGridView1.Rows[number].Cells[1].Value)) / 100;
+                                number++;
+                            }
+                        }
+
+
+                        foreach (XmlNode newxn in newnodeList1)
+                        {
+                            XmlElement newxe1 = (XmlElement)newxn;
+                            XmlNodeList newnls = newxe1.ChildNodes;
+
+                            foreach (XmlNode newxn1 in newnls)
+                            {
+                                XmlElement newtest = (XmlElement)newxn1;
+                                if (newtest.GetAttribute("ID") == xe.GetAttribute("id"))
+                                {
+                                    firstname = newtest.GetAttribute("FirstName");
+                                    surname = newtest.GetAttribute("SurName");
+                                }
+                            }
+
+                        }
+
+                        if (flag)
+                        {
+
+                            XmlNode student = doc.CreateElement("student");
+                            student.Attributes.Append(CreateAttribute(student, "id", xe.GetAttribute("id")));
+                            student.Attributes.Append(CreateAttribute(student, "FirstName", firstname));
+                            student.Attributes.Append(CreateAttribute(student, "SurName", surname));
+                            root.AppendChild(student);
+
+                            XmlNode grade = doc.CreateElement("grade");
+                            grade.Attributes.Append(CreateAttribute(grade, "course", CourseName));
+                            grade.Attributes.Append(CreateAttribute(grade, "grade", sumgrade.ToString()));
+                            student.AppendChild(grade);
+                        }
+
+
+
+                    }
+                    doc.Save("gradelist.xml");
+                    MessageBox.Show("XML File created ! ");
+                }
+              
 
             }
             Gradelist form2 = new Gradelist();
