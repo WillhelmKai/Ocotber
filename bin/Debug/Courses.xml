@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<courses>
-  <course id="1" Criteria=" Completeness" Excellent="avdvdbb" Good="strong" Satisfactory=" clear" Pass=" poor clear" Fail=" not relative" />
-  <course id="2" Criteria="correctness" Excellent="strong correct" Good=" very correct" Satisfactory=" well correct" Pass=" poor correct" Fail=" not correct" />
-  <course id="3" Criteria=" " Excellent=" " Good=" " Satisfactory=" " Pass=" " Fail=" " />
-  <course id="4" Criteria=" " Excellent=" " Good=" " Satisfactory=" " Pass=" " Fail=" " />
-  <course id="5" Criteria=" " Excellent=" " Good=" " Satisfactory=" " Pass=" " Fail=" " />
-  <course id="6" Criteria=" " Excellent=" " Good=" " Satisfactory=" " Pass=" " Fail=" " />
-</courses>
