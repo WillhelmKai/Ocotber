@@ -37,5 +37,10 @@ namespace WindowsFormsApp6
             this.Hide();
             form3.ShowDialog();
         }
+
+        private void Student_Load(object sender, EventArgs e)
+        {
+            //hello
+        }
     }
 }
