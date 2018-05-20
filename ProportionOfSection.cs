@@ -20,6 +20,7 @@ namespace Evaluate
     {
         String CourseName;
         public bool flag=false;
+        public bool courseflag = true;
         public string firstname;
         public string surname;
         public ProportionOfSection(String course)
@@ -159,10 +160,25 @@ namespace Evaluate
                         if (flag)
                         {
                             XmlNode node = xmlDoc0.SelectSingleNode("//student[@id='" + xe.GetAttribute("id") + "'] ");
-                            XmlNode grade = xmlDoc0.CreateElement("grade");
-                            grade.Attributes.Append(CreateAttribute(grade, "course", CourseName));
-                            grade.Attributes.Append(CreateAttribute(grade, "grade", sumgrade.ToString()));
-                            node.AppendChild(grade);
+                            foreach (XmlNode coursenode in node.ChildNodes)
+                            {
+                                XmlElement newcourse = (XmlElement)coursenode;
+                                if(newcourse.GetAttribute("course")== CourseName)
+                                {
+                                    newcourse.SetAttribute("grade", sumgrade.ToString());
+                                    courseflag = false;
+                                    break;
+                                }
+                            }
+                            if(courseflag)
+                            {
+                                XmlNode grade = xmlDoc0.CreateElement("grade");
+                                grade.Attributes.Append(CreateAttribute(grade, "course", CourseName));
+                                grade.Attributes.Append(CreateAttribute(grade, "grade", sumgrade.ToString()));
+                                node.AppendChild(grade);
+                            }
+                           
+                               
                         }
 
 

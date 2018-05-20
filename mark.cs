@@ -58,6 +58,50 @@ namespace Evaluate
             }
         }
 
+        public double transform(String grade)
+        {
+            if(grade.Equals("A"))
+            {
+                return 100;
+            }
+            else if(grade.Equals("B"))
+            {
+                return 80;
+            }
+            else if (grade.Equals("C"))
+            {
+                return 60;
+            }
+            else if (grade.Equals("D"))
+            {
+                return 40;
+            }
+            else if (grade.Equals("F"))
+            {
+                return 20;
+            }
+            else if (grade.Equals("1day"))
+            {
+                return 0.3;
+            }
+            else if (grade.Equals("2days"))
+            {
+                return 0.5;
+            }
+            else if (grade.Equals("morethan3days"))
+            {
+                return 1.0;
+            }
+            else if(grade.Equals(null))
+            {
+                return 0;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             EVA eva = new EVA();
@@ -126,6 +170,19 @@ namespace Evaluate
                 dgcbc.HeaderText = array[count-1];
                 dataGridView2.Columns.Add(dgcbc);
             }
+
+            DataGridViewComboBoxColumn delay = new DataGridViewComboBoxColumn();
+            DataGridViewComboBoxCell idelay = new DataGridViewComboBoxCell();
+            idelay.Items.Add("1day");
+            idelay.Items.Add("2days");
+            idelay.Items.Add("morethan3days");
+            delay.CellTemplate = idelay;
+            //设置列的属性
+            delay.DataPropertyName = "delay";
+            delay.Name = "delay";
+            delay.HeaderText = "delay";
+            dataGridView2.Columns.Add(delay);
+
             DataGridViewTextBoxColumn sum = new DataGridViewTextBoxColumn();
             sum.Name = "sum";
             sum.DataPropertyName = "sum";
@@ -158,36 +215,25 @@ namespace Evaluate
         {
             //MessageBox.Show("你选定的项为:" + dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString());
             int column = dataGridView2.ColumnCount;
-            double average = Convert.ToDouble(column-2);
-            if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("A"))
+            double average = Convert.ToDouble(column-3);
+            dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = 0;
+            for (int i=1;i< column-2;i++)
             {
+                if(dataGridView2.Rows[e.RowIndex].Cells[i].Value!=null)
+                {
+                    dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = transform(dataGridView2.Rows[e.RowIndex].Cells[i].Value.ToString()) / average + Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value);
+                }
+            }
+            if(dataGridView2.Rows[e.RowIndex].Cells[column - 2].Value!=null)
+            {
+                dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) - Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) * transform(dataGridView2.Rows[e.RowIndex].Cells[column - 2].Value.ToString());
+            }
+           
+           /* if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("A"))
+            {
+                
                 dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (100.0 / average);
 
-
-
-
-
-                /*if((change(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value.ToString()) + (100.0 / average))<20)
-                {
-                    dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = "F";
-                }
-               else if((change(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value.ToString()) + (100.0 / average)) <40 && (change(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value.ToString()) + (100.0 / average)) > 20)
-                {
-                    dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = "D";
-                }
-                else if((change(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value.ToString()) + (100.0 / average)) < 60 && (change(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value.ToString()) + (100.0 / average)) > 40)
-                {
-                    dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = "C";
-                }
-                else if((change(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value.ToString()) < 80 && (change(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value.ToString()) + (100.0 / average)) > 60))
-                {
-                    dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = "B";
-                }
-                
-                else
-                {
-                    dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = "A";
-                }*/
             }
             else if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("B"))
             {
@@ -204,7 +250,7 @@ namespace Evaluate
             else
             {
                 dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (20.0 / average);
-            }
+            }*/
         }
 
         private void button2_Click(object sender, EventArgs e)
