@@ -85,6 +85,7 @@
             this.Name = "Student";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Student";
+            this.Load += new System.EventHandler(this.Student_Load);
             this.ResumeLayout(false);
 
         }
