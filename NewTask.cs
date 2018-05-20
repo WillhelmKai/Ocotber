@@ -18,6 +18,7 @@ namespace course
         public DataGridViewRow dgvr;
         public String course;
         public String filename = "task.xml";
+        public bool flag=true;
         public NewTask(DataGridViewRow myRow)
         {
             InitializeComponent();
@@ -92,14 +93,47 @@ namespace course
                 {
                     XmlDocument doc = new XmlDocument();
                     doc.Load(filename);
-                    XmlNode node = doc.SelectSingleNode("//courses");
-                    XmlNode node1 = doc.CreateElement("task");
-                    node1.Attributes.Append(CreateAttribute(node1, "CourseName", course));
-                    node1.Attributes.Append(CreateAttribute(node1, "Task", textBox1.Text));
-                    node1.Attributes.Append(CreateAttribute(node1, "Rubric", comboBox2.Text));
-                    node.AppendChild(node1);
+                    XmlNodeList nodeList = doc.SelectSingleNode("UIC").ChildNodes;
+                    foreach (XmlNode xn in nodeList)
+                    {
+                        XmlElement xe = (XmlElement)xn;
 
-                    doc.Save(filename);
+                        if (xe.GetAttribute("CourseName") == course)
+                        {
+                            flag = false;
+
+                        }
+                    }
+
+                    if(flag)
+                    {
+                        XmlNode node = doc.SelectSingleNode("//UIC");
+
+                        XmlNode node1 = doc.CreateElement("courses");
+                        node1.Attributes.Append(CreateAttribute(node1, "CourseName", course));
+                        node.AppendChild(node1);
+                        XmlNode node2 = doc.CreateElement("task");
+                        node2.Attributes.Append(CreateAttribute(node2, "CourseName", course));
+                        node2.Attributes.Append(CreateAttribute(node2, "Task", textBox1.Text));
+                        node2.Attributes.Append(CreateAttribute(node2, "Rubric", comboBox2.Text));
+                        node2.Attributes.Append(CreateAttribute(node2, "Percentage", "0"));
+                        node1.AppendChild(node2);
+
+                        doc.Save(filename);
+                    }
+                    else
+                    {
+                        XmlNode node = doc.SelectSingleNode("//courses");
+
+                        XmlNode node1 = doc.CreateElement("task");
+                        node1.Attributes.Append(CreateAttribute(node1, "CourseName", course));
+                        node1.Attributes.Append(CreateAttribute(node1, "Task", textBox1.Text));
+                        node1.Attributes.Append(CreateAttribute(node1, "Rubric", comboBox2.Text));
+                        node1.Attributes.Append(CreateAttribute(node1, "Percentage", "0"));
+                        node.AppendChild(node1);
+
+                        doc.Save(filename);
+                    }
 
                 }
                 else
