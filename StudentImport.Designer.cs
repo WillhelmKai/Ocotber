@@ -63,7 +63,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 20);
             this.label1.TabIndex = 22;
-            this.label1.Text = "CourseName:";
+            this.label1.Text = "Department:";
             // 
             // button3
             // 
