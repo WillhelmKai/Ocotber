@@ -98,7 +98,7 @@ namespace Evaluate
                          };
             dataGridView2.DataSource = query1.ToList();
             
-           /* //extract information in rubric
+           //extract information in rubric
             XmlDocument doc = new XmlDocument();
             doc.Load("rubric.xml");
             string[] array = new string[100];
@@ -134,7 +134,7 @@ namespace Evaluate
             for(int i=0;i<dataGridView2.RowCount;i++)
             {
                 dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value = 0;
-            }*/
+            }
 
 
         }
