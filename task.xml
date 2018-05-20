@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UIC>
+  <courses CourseName="IT">
+    <task CourseName="IT" Task="Assignment" Rubric="Essay" Percentage="50" />
+    <task CourseName="IT" Task="Midterm" Rubric="Essay" Percentage="50" />
+    <task CourseName="IT" Task="Final" Rubric="Essay" />
+  </courses>
+</UIC>
