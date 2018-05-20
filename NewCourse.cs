@@ -114,17 +114,36 @@ namespace course
 
                 if (File.Exists(filename))
                 {
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(filename);
-                    XmlNode node = doc.SelectSingleNode("//courses");
-                    XmlNode node1 = doc.CreateElement("course");
-                    node1.Attributes.Append(CreateAttribute(node1, "CourseName", textBox1.Text));
-                    node1.Attributes.Append(CreateAttribute(node1, "CourseNumber", textBox2.Text));
-                    node1.Attributes.Append(CreateAttribute(node1, "Student", comboBox1.Text));
-                    node.AppendChild(node1);
 
-                    doc.Save(filename);
-                    MessageBox.Show("Add successe!!");
+
+                    int j = 0;
+                    XmlDocument myxml = new XmlDocument();
+                    myxml.Load("course.xml");
+                    XmlNode demo = myxml.DocumentElement;
+                    foreach (XmlNode node in demo.ChildNodes)
+                    {
+                        if (textBox1.Text == node.Attributes[0].Value)
+                            j = 1;
+                    }
+                    if (j == 0)
+                    {
+
+                        XmlDocument doc = new XmlDocument();
+                        doc.Load(filename);
+                        XmlNode node = doc.SelectSingleNode("//courses");
+                        XmlNode node1 = doc.CreateElement("course");
+                        node1.Attributes.Append(CreateAttribute(node1, "CourseName", textBox1.Text));
+                        node1.Attributes.Append(CreateAttribute(node1, "CourseNumber", textBox2.Text));
+                        node1.Attributes.Append(CreateAttribute(node1, "Student", comboBox1.Text));
+                        node.AppendChild(node1);
+
+                        doc.Save(filename);
+                        MessageBox.Show("Add successe!!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("This course has already exist!!");
+                    }
                 }
                 else
                 {

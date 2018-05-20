@@ -35,7 +35,7 @@ namespace Evaluate
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Grade grade = new Grade();
+            Gradelist grade = new Gradelist();
             this.Hide();
             grade.ShowDialog();
         }

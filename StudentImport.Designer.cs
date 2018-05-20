@@ -59,11 +59,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(22, 619);
+            this.label1.Location = new System.Drawing.Point(12, 612);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 20);
             this.label1.TabIndex = 22;
-            this.label1.Text = "Department:";
+            this.label1.Text = "CourseName:";
             // 
             // button3
             // 

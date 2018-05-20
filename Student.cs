@@ -42,5 +42,12 @@ namespace WindowsFormsApp6
         {
             //hello
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            StudentSearch form3 = new StudentSearch();
+            this.Hide();
+            form3.ShowDialog();
+        }
     }
 }

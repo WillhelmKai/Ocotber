@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -50,8 +50,14 @@
     <Reference Include="CSkin">
       <HintPath>..\..\..\Desktop\大三（下）\Computer_Graphics\CSkin 16.1.14.2\CSkin 2.0\CSkin.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="IrisSkin2">
       <HintPath>..\..\..\Desktop\大三（下）\Computer_Graphics\IrisSkin2sskpages\皮肤控件\IrisSkin2.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>bin\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -206,6 +212,12 @@
     <Compile Include="StudentList.Designer.cs">
       <DependentUpon>StudentList.cs</DependentUpon>
     </Compile>
+    <Compile Include="StudentSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentSearch.Designer.cs">
+      <DependentUpon>StudentSearch.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="CourseIndex.resx">
       <DependentUpon>CourseIndex.cs</DependentUpon>
     </EmbeddedResource>
@@ -280,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StudentList.resx">
       <DependentUpon>StudentList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentSearch.resx">
+      <DependentUpon>StudentSearch.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
