@@ -20,6 +20,8 @@ namespace Evaluate
     {
         String CourseName;
         public bool flag=false;
+        public string firstname;
+        public string surname;
         public ProportionOfSection(String course)
         {
             InitializeComponent();
@@ -101,6 +103,7 @@ namespace Evaluate
                 xmlDoc.Save("task.xml");
                 MessageBox.Show("Saved");
 
+
                 //create grade list
                 XmlDocument doc = new XmlDocument();
                 XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
@@ -111,12 +114,19 @@ namespace Evaluate
 
                 XmlDataDocument xmlDoc1 = new XmlDataDocument();
                 xmlDoc1.Load("evaluate.xml");
+                XmlDataDocument xmlDoc2 = new XmlDataDocument();
+                xmlDoc2.Load("student.xml");
+                XmlNodeList newnodeList1 = xmlDoc2.SelectSingleNode("Students").ChildNodes;
                 XmlNodeList newnodeList = xmlDoc1.SelectSingleNode("UIC").ChildNodes;
                 double sumgrade;
                 foreach (XmlNode xn in newnodeList)
                 {
+
                     XmlElement xe = (XmlElement)xn;
                     XmlNodeList nls = xe.ChildNodes;
+
+                  
+
                     int number = 0;
                     sumgrade = 0;
                     foreach (XmlNode xn1 in nls)
@@ -129,14 +139,38 @@ namespace Evaluate
                             number++;
                         }
                     }
-                    
-                    if(flag)
+       
+
+                    foreach (XmlNode newxn in newnodeList1)
                     {
+                        XmlElement newxe = (XmlElement)newxn;
+                        XmlNodeList newnls = newxe.ChildNodes;
+
+                        foreach (XmlNode newxn1 in newnls)
+                        {
+                            XmlElement newtest = (XmlElement)newxn1;
+                            if (newtest.GetAttribute("ID") == xe.GetAttribute("id"))
+                            {
+                                firstname = newtest.GetAttribute("FirstName");
+                                surname= newtest.GetAttribute("SurName");
+                            }
+                        }
+
+                    }
+
+                        if (flag)
+                    {
+
+                        XmlNode student = doc.CreateElement("student");
+                        student.Attributes.Append(CreateAttribute(student, "id", xe.GetAttribute("id")));
+                        student.Attributes.Append(CreateAttribute(student, "FirstName", firstname));
+                        student.Attributes.Append(CreateAttribute(student, "SurName", surname));
+                        root.AppendChild(student);
+
                         XmlNode grade = doc.CreateElement("grade");
-                        grade.Attributes.Append(CreateAttribute(grade, "id", xe.GetAttribute("id")));
                         grade.Attributes.Append(CreateAttribute(grade, "course", CourseName));
                         grade.Attributes.Append(CreateAttribute(grade, "grade", sumgrade.ToString()));
-                        root.AppendChild(grade);
+                        student.AppendChild(grade);
                     }
                  
    
