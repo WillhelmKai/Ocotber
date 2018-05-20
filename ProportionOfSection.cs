@@ -56,7 +56,7 @@ namespace Evaluate
         {
 
             int row = dataGridView1.Rows.Count;
-            int col = dataGridView1.Rows[1].Cells.Count;
+           // int col = dataGridView1.Rows[1].Cells.Count;
             int sum = 0, a = 0;
 
             //check the persentage            

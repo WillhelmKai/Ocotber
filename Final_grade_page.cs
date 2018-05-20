@@ -26,7 +26,7 @@ namespace Evaluate
             XmlDocument myxml = new XmlDocument();
             myxml.Load("course.xml");
             XmlNode demo = myxml.DocumentElement;
-            foreach (XmlNode node in demo.ChildNodes)
+            foreach (XmlNode node in demo)
             {
                 comboBox1.Items.Add(node.Attributes[0].Value);
             }
