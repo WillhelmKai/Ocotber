@@ -45,5 +45,10 @@ namespace WindowsFormsApp3
             this.Hide();
             f5.ShowDialog();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //jkjl
+        }
     }
 }
