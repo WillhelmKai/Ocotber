@@ -180,33 +180,52 @@ namespace WindowsFormsApp6
                 MessageBox.Show("Please input the course name!");
             }
             else {
-                if (File.Exists("student.xml"))
-                {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.Load("student.xml");
-                    XmlNode root = xmlDoc.SelectSingleNode("Students");
 
-                    int i = 1;
-
-                    for (i = 0; i < dataGridView1.RowCount; i++)
+                    if (File.Exists("student.xml"))
                     {
-                        String a = dataGridView1[0, i].EditedFormattedValue.ToString();
-                        String b = dataGridView1[1, i].EditedFormattedValue.ToString();
-                        String c = dataGridView1[2, i].EditedFormattedValue.ToString();
-                        String d = dataGridView1[3, i].EditedFormattedValue.ToString();
-                        XmlNode node1 = xmlDoc.CreateElement("student", null);
-                        node1.Attributes.Append(CreateAttribute(node1, "Course", textBox7.Text));
-                        root.AppendChild(node1);
-                        XmlNode node2 = xmlDoc.CreateElement("task", null);
-                        node2.Attributes.Append(CreateAttribute(node2, "SurName", a));
-                        node2.Attributes.Append(CreateAttribute(node2, "FirstName", b));
-                        node2.Attributes.Append(CreateAttribute(node2, "ID", c));
-                        node2.Attributes.Append(CreateAttribute(node2, "Group", d));
-                        node1.AppendChild(node2);
+                     int j = 0;
+                      XmlDocument myxml = new XmlDocument();
+                      myxml.Load("student.xml");
+                      XmlNode demo = myxml.DocumentElement;
+                    foreach (XmlNode node in demo.ChildNodes)
+                    {
+                        if (textBox7.Text == node.Attributes[0].Value)
+                            j = 1;
+                    }
+                    if (j == 0)
+                    {
+
+                        XmlDocument xmlDoc = new XmlDocument();
+                        xmlDoc.Load("student.xml");
+                        XmlNode root = xmlDoc.SelectSingleNode("Students");
+
+                        int i = 1;
+
+                        for (i = 0; i < dataGridView1.RowCount; i++)
+                        {
+                            String a = dataGridView1[0, i].EditedFormattedValue.ToString();
+                            String b = dataGridView1[1, i].EditedFormattedValue.ToString();
+                            String c = dataGridView1[2, i].EditedFormattedValue.ToString();
+                            String d = dataGridView1[3, i].EditedFormattedValue.ToString();
+                            XmlNode node1 = xmlDoc.CreateElement("student", null);
+                            node1.Attributes.Append(CreateAttribute(node1, "Course", textBox7.Text));
+                            root.AppendChild(node1);
+                            XmlNode node2 = xmlDoc.CreateElement("task", null);
+                            node2.Attributes.Append(CreateAttribute(node2, "SurName", a));
+                            node2.Attributes.Append(CreateAttribute(node2, "FirstName", b));
+                            node2.Attributes.Append(CreateAttribute(node2, "ID", c));
+                            node2.Attributes.Append(CreateAttribute(node2, "Group", d));
+                            node1.AppendChild(node2);
+                        }
+
+                        xmlDoc.Save("student.xml");
+                        MessageBox.Show("This sheet has been added successful! ");
                     }
 
-                    xmlDoc.Save("student.xml");
-                    MessageBox.Show("This sheet has been added successful! ");
+                    else
+                    {
+                        MessageBox.Show("This DepartMent has already exist! ");
+                    }
                 }
                 else
                 {
