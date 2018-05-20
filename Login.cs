@@ -56,6 +56,9 @@ namespace WindowsFormsApp6
                 this.Hide();
                 form2.ShowDialog();
             }
+            else {
+                MessageBox.Show("Invalid Password");
+            }
         }
     }
 }
