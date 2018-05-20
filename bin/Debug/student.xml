@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Students>
+  <student Course="CO">
+    <task SurName="A" FirstName="Will" ID="1" Group="1" />
+  </student>
+  <student Course="CO">
+    <task SurName="B" FirstName="Bill" ID="2" Group="1" />
+  </student>
+  <student Course="CO">
+    <task SurName="C" FirstName="Jim" ID="3" Group="2" />
+  </student>
+  <student Course="CO">
+    <task SurName="D" FirstName="Sam" ID="4" Group="2" />
+  </student>
+  <student Course="CO">
+    <task SurName="E" FirstName="Tom" ID="5" Group="2" />
+  </student>
+  <student Course="IT">
+    <task SurName="A" FirstName="Will" ID="1" Group="1" />
+  </student>
+  <student Course="IT">
+    <task SurName="B" FirstName="Bill" ID="2" Group="1" />
+  </student>
+  <student Course="IT">
+    <task SurName="C" FirstName="Jim" ID="3" Group="2" />
+  </student>
+  <student Course="IT">
+    <task SurName="D" FirstName="Sam" ID="4" Group="2" />
+  </student>
+  <student Course="IT">
+    <task SurName="E" FirstName="Tom" ID="5" Group="2" />
+  </student>
+</Students>

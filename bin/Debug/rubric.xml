@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UIC>
+  <courses id="0" name="0">
+    <task row="0" Item="0" Percentage="0" A="0" B="0" C="0" D="0" F="0" />
+  </courses>
+  <courses id="2" name="MC">
+    <task row="2.10" Item="Correctness" Percentage="100" A="a" B="a" C="a" D="a" F="a" />
+  </courses>
+</UIC>

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<courses>
+  <course CourseName="CO" CourseNumber="COMP2001" Student="CO" />
+  <course CourseName="IT" CourseNumber="COMP2000" Student="IT" />
+</courses>

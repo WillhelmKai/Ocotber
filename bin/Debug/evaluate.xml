@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UIC>
+  <student id="1">
+    <task CourseName="CO" Task="Midter" Rubric="MC" Grade="100" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="100" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="60" />
+  </student>
+  <student id="2">
+    <task CourseName="CO" Task="Midter" Rubric="MC" Grade="100" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="60" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="40" />
+  </student>
+  <student id="3">
+    <task CourseName="CO" Task="Midter" Rubric="MC" Grade="80" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="80" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="100" />
+  </student>
+  <student id="4">
+    <task CourseName="CO" Task="Midter" Rubric="MC" Grade="80" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="100" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="100" />
+  </student>
+  <student id="5">
+    <task CourseName="CO" Task="Midter" Rubric="MC" Grade="20" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="40" />
+    <task CourseName="IT" Task="midterm" Rubric="MC" Grade="100" />
+  </student>
+</UIC>
