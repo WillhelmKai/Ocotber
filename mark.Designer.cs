@@ -123,8 +123,7 @@
             // skinEngine1
             // 
             this.skinEngine1.SerialNumber = "";
-            this.skinEngine1.SkinFile = "C:\\Users\\Stonylix\\Desktop\\大三（下）\\Computer_Graphics\\IrisSkin2sskpages\\皮肤控件\\皮肤\\MacOS" +
-    "\\MacOS.ssk";
+            this.skinEngine1.SkinFile = null;
             this.skinEngine1.SkinStreamMain = ((System.IO.Stream)(resources.GetObject("skinEngine1.SkinStreamMain")));
             // 
             // mark

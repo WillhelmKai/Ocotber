@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <UIC>
   <courses CourseName="IT">
-    <task CourseName="CO" Task="Assgnment" Rubric="MC" Percentage="0" Group="Y" />
-    <task CourseName="CO" Task="Assgnment1" Rubric="MC" Percentage="0" Group="N" />
+    <task CourseName="IT" Task="Assgnment" Rubric="MC" Percentage="0" Group="Y" />
+    <task CourseName="IT" Task="Assgnment1" Rubric="MC" Percentage="0" Group="N" />
     <task CourseName="IT" Task="Group" Rubric="0" Percentage="0" Group="Y" />
     <task CourseName="IT" Task="Individual" Rubric="0" Percentage="0" Group="N" />
   </courses>
