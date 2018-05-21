@@ -35,9 +35,12 @@ namespace Evaluate
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Gradelist grade = new Gradelist();
-            this.Hide();
-            grade.ShowDialog();
+            if (comboBox1.SelectedItem != null)
+            {
+                Gradelist grade = new Gradelist(comboBox1.SelectedItem.ToString());
+                this.Hide();
+                grade.ShowDialog();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)

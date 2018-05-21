@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace WindowsFormsApp6
@@ -18,9 +19,13 @@ namespace WindowsFormsApp6
     public partial class Gradelist : Form
     {
         public DataGridViewRow dgvr;
-        public Gradelist()
+        String CourseName;
+
+        public Gradelist(String course)
         {
             InitializeComponent();
+            CourseName = course;
+          
         }
 
         public Gradelist(DataGridViewRow myDGVR)
@@ -36,18 +41,30 @@ namespace WindowsFormsApp6
 
         private void Gradelist_Load(object sender, EventArgs e)
         {
-            string xmlpath = @"gradelist.xml";
-            XDocument xdoc = XDocument.Load(xmlpath);
-            var query = from n in xdoc.Descendants("grade")
+
+            XElement root1 = XElement.Load("gradelist.xml");
+            IEnumerable<XElement> address =
+                from el in root1.Elements()
+                where ((string)el.Attribute("course")) == CourseName
+                select el;
+
+
+            XElement xmlTree2 = new XElement("UIC",
+                from el in root1.Elements("student").Elements("grade")
+                where (((string)el.Attribute("course")) == CourseName)
+                select el);
+
+            var query = from n in xmlTree2.Elements()
                         select new
                         {
-                            id = n.Parent.Attribute("id").Value,
-                            firstname = n.Parent.Attribute("FirstName").Value,
-                            lastname = n.Parent.Attribute("SurName").Value,
-                            course = n.Attribute("course").Value,
-                            grade = n.Attribute("grade").Value
+                            //id = n.Attribute("id").Value,
+                           // firstname = n.Parent.Attribute("FirstName").Value,
+                          //  lastname = n.Attribute("SurName").Value,
+                           course = n.Attribute("course").Value,
+                          grade = n.Attribute("grade").Value
                         };
             dataGridView1.DataSource = query.ToList();
+
 
         }
 

@@ -265,13 +265,7 @@ namespace Evaluate
                     doc.Save("gradelist.xml");
                     MessageBox.Show("XML File created ! ");
                 }
-              
-
             }
-            Gradelist form2 = new Gradelist();
-            this.Hide();
-            form2.ShowDialog();
-
         }
 
         private void label1_Click(object sender, EventArgs e)
