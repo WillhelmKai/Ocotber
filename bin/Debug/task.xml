@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <UIC>
   <courses CourseName="IT">
-    <task CourseName="IT" Task="Assgnment" Rubric="MC" Percentage="0" Group="Y" />
-    <task CourseName="IT" Task="Assgnment1" Rubric="MC" Percentage="0" Group="N" />
-    <task CourseName="IT" Task="Group" Rubric="0" Percentage="0" Group="Y" />
-    <task CourseName="IT" Task="Individual" Rubric="0" Percentage="0" Group="N" />
+    <task CourseName="IT" Task="Midterm" Rubric="MC" Percentage="50" Group="N" />
+    <task CourseName="IT" Task="Final" Rubric="MC" Percentage="50" Group="Y" />
   </courses>
   <courses CourseName="CO">
-    <task CourseName="CO" Task="Midter" Rubric="MC" Percentage="100"  Group="N" />
+    <task CourseName="CO" Task="midterm" Rubric="MC" Percentage="100" Group="Y" />
   </courses>
 </UIC>
