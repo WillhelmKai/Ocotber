@@ -27,6 +27,30 @@ namespace Evaluate
             CourseName = course;
             textBox1.Text = CourseName;
         }
+        public String transform(String grade )
+        {
+            if(int.Parse(grade)>=80)
+            { 
+                return "A";
+            }
+            else if(int.Parse(grade) >= 60)
+            {
+                return "B";
+            }
+            else if (int.Parse(grade) >= 40)
+            {
+                return "C";
+            }
+            else if (int.Parse(grade) >= 20)
+            {
+                return "D";
+            }
+            else
+            {
+                return "F";
+            }
+        }
+
         public XmlAttribute CreateAttribute(XmlNode node, string attributeName, string value)
         {
             try
@@ -139,7 +163,7 @@ namespace Evaluate
                                     foreach (XmlNode grade in coursenode.ChildNodes)
                                     {
                                         XmlElement newgrade = (XmlElement)grade;
-                                        newgrade.SetAttribute("grade", sumgrade.ToString());
+                                        newgrade.SetAttribute("grade", transform(sumgrade.ToString()));
                                         courseflag = false;
                                     }
 
@@ -157,7 +181,7 @@ namespace Evaluate
                             studentNode.Attributes.Append(CreateAttribute(studentNode, "course", CourseName));
                             node.AppendChild(studentNode);
                             XmlNode grade = xmlDoc0.CreateElement("grade");
-                            grade.Attributes.Append(CreateAttribute(grade, "grade", sumgrade.ToString()));
+                            grade.Attributes.Append(CreateAttribute(grade, "grade", transform(sumgrade.ToString())));
                             studentNode.AppendChild(grade);
                         }
 
@@ -241,17 +265,18 @@ namespace Evaluate
                             student.Attributes.Append(CreateAttribute(student, "course", CourseName));
                             root.AppendChild(student); XmlNode grade = doc.CreateElement("grade");
 
-                            grade.Attributes.Append(CreateAttribute(grade, "grade", sumgrade.ToString()));
+                            grade.Attributes.Append(CreateAttribute(grade, "grade", transform(sumgrade.ToString())));
                             student.AppendChild(grade);
                         }
                     }
                     doc.Save("gradelist.xml");
                     MessageBox.Show("XML File created ! ");
                 }
+                Gradelist form2 = new Gradelist(CourseName);
+                this.Hide();
+                form2.ShowDialog();
             }
-            Gradelist form2 = new Gradelist(CourseName);
-            this.Hide();
-            form2.ShowDialog();
+            
         }
         private void label1_Click(object sender, EventArgs e)
         { }

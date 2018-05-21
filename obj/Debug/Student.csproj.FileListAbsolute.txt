@@ -131,3 +131,6 @@ C:\Users\Stonylix\Desktop\大三（下）\Ocotber\obj\Debug\WindowsFormsApp6.pdb
 C:\Users\Stonylix\Desktop\大三（下）\Ocotber\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Users\Stonylix\Desktop\大三（下）\Ocotber\bin\Debug\itextsharp.dll
 C:\Users\Stonylix\Desktop\大三（下）\Ocotber\obj\Debug\WindowsFormsApp6.StudentSearch.resources
+C:\Users\k5300\Source\Repos\Ocotber\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\k5300\Source\Repos\Ocotber\bin\Debug\itextsharp.dll
+C:\Users\k5300\Source\Repos\Ocotber\obj\Debug\WindowsFormsApp6.StudentSearch.resources

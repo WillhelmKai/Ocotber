@@ -1,33 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <UIC>
   <student id="1" FirstName="Will" SurName="A" course="CO">
-    <grade grade="100" />
+    <grade grade="A" />
   </student>
   <student id="2" FirstName="Bill" SurName="B" course="CO">
-    <grade grade="100" />
+    <grade grade="A" />
   </student>
   <student id="3" FirstName="Jim" SurName="C" course="CO">
-    <grade grade="80" />
+    <grade grade="A" />
   </student>
   <student id="4" FirstName="Sam" SurName="D" course="CO">
-    <grade grade="80" />
+    <grade grade="A" />
   </student>
   <student id="5" FirstName="Tom" SurName="E" course="CO">
-    <grade grade="20" />
+    <grade grade="D" />
   </student>
   <student id="1" FirstName="Will" SurName="A" course="IT">
-    <grade grade="68" />
+    <grade grade="C" />
   </student>
   <student id="2" FirstName="Bill" SurName="B" course="IT">
-    <grade grade="44" />
+    <grade grade="C" />
   </student>
   <student id="3" FirstName="Jim" SurName="C" course="IT">
-    <grade grade="96" />
+    <grade grade="C" />
   </student>
   <student id="4" FirstName="Sam" SurName="D" course="IT">
-    <grade grade="100" />
+    <grade grade="C" />
   </student>
   <student id="5" FirstName="Tom" SurName="E" course="IT">
-    <grade grade="88" />
+    <grade grade="C" />
   </student>
 </UIC>

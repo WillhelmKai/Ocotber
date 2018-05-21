@@ -20,10 +20,11 @@ namespace Evaluate
         public string name;
         public string course;
         public string taskname;
-        public int count=0;
+        public int count = 0;
         public int sumcount;
-        public bool flag=true;
+        public bool flag = true;
         public bool evaflag;
+        public bool editflag = true;
         public mark()
         {
             InitializeComponent();
@@ -33,10 +34,10 @@ namespace Evaluate
         {
             InitializeComponent();
             dgvr = myDGVR;
-            name= dgvr.Cells[2].Value.ToString();
+            name = dgvr.Cells[2].Value.ToString();
             taskname = dgvr.Cells[1].Value.ToString();
             course = dgvr.Cells[0].Value.ToString();
-            
+
             //  getData();
         }
 
@@ -60,11 +61,11 @@ namespace Evaluate
 
         public double transform(String grade)
         {
-            if(grade.Equals("A"))
+            if (grade.Equals("A"))
             {
                 return 100;
             }
-            else if(grade.Equals("B"))
+            else if (grade.Equals("B"))
             {
                 return 80;
             }
@@ -92,7 +93,7 @@ namespace Evaluate
             {
                 return 1.0;
             }
-            else if(grade.Equals(null))
+            else if (grade.Equals(null))
             {
                 return 0;
             }
@@ -129,8 +130,8 @@ namespace Evaluate
                         };
             dataGridView1.DataSource = query.ToList();
 
-           
-           string strPath = @"student.xml";
+
+            string strPath = @"student.xml";
             XElement student = XElement.Load(strPath);
             IEnumerable<XElement> stu = from st in student.Elements("student")
                                         where (string)st.Attribute("Course") == course
@@ -141,8 +142,8 @@ namespace Evaluate
                              Studentname = n.Attribute("ID").Value
                          };
             dataGridView2.DataSource = query1.ToList();
-            
-           //extract information in rubric
+
+            //extract information in rubric
             XmlDocument doc = new XmlDocument();
             doc.Load("rubric.xml");
             string[] array = new string[100];
@@ -153,8 +154,8 @@ namespace Evaluate
                 array[count] = item.Attributes[1].Value;
                 count++;
             }
-            sumcount = count+1;
-            for (;count>0;count--)
+            sumcount = count + 1;
+            for (; count > 0; count--)
             {
                 DataGridViewComboBoxColumn dgcbc = new DataGridViewComboBoxColumn();
                 DataGridViewComboBoxCell it = new DataGridViewComboBoxCell();
@@ -165,9 +166,9 @@ namespace Evaluate
                 it.Items.Add("F");
                 dgcbc.CellTemplate = it;
                 //设置列的属性
-                dgcbc.DataPropertyName = array[count-1];
-                dgcbc.Name = array[count-1];
-                dgcbc.HeaderText = array[count-1];
+                dgcbc.DataPropertyName = array[count - 1];
+                dgcbc.Name = array[count - 1];
+                dgcbc.HeaderText = array[count - 1];
                 dataGridView2.Columns.Add(dgcbc);
             }
 
@@ -188,7 +189,7 @@ namespace Evaluate
             sum.DataPropertyName = "sum";
             sum.HeaderText = "sum";
             dataGridView2.Columns.Add(sum);
-            for(int i=0;i<dataGridView2.RowCount;i++)
+            for (int i = 0; i < dataGridView2.RowCount; i++)
             {
                 dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value = 0;
             }
@@ -198,59 +199,59 @@ namespace Evaluate
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
         private void dataGridView2_SelectionChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void dataGridView2_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            
+
         }
 
         private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             //MessageBox.Show("你选定的项为:" + dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString());
             int column = dataGridView2.ColumnCount;
-            double average = Convert.ToDouble(column-3);
+            double average = Convert.ToDouble(column - 3);
             dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = 0;
-            for (int i=1;i< column-2;i++)
+            for (int i = 1; i < column - 2; i++)
             {
-                if(dataGridView2.Rows[e.RowIndex].Cells[i].Value!=null)
+                if (dataGridView2.Rows[e.RowIndex].Cells[i].Value != null)
                 {
                     dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = transform(dataGridView2.Rows[e.RowIndex].Cells[i].Value.ToString()) / average + Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value);
                 }
             }
-            if(dataGridView2.Rows[e.RowIndex].Cells[column - 2].Value!=null)
+            if (dataGridView2.Rows[e.RowIndex].Cells[column - 2].Value != null)
             {
                 dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) - Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) * transform(dataGridView2.Rows[e.RowIndex].Cells[column - 2].Value.ToString());
             }
-           
-           /* if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("A"))
-            {
-                
-                dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (100.0 / average);
 
-            }
-            else if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("B"))
-            {
-                dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (80.0 / average);
-            }
-            else if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("C"))
-            {
-                dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (60.0 / average);
-            }
-            else if (dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("D"))
-            {
-                dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (40.0 / average);
-            }
-            else
-            {
-                dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (20.0 / average);
-            }*/
+            /* if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("A"))
+             {
+
+                 dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (100.0 / average);
+
+             }
+             else if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("B"))
+             {
+                 dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (80.0 / average);
+             }
+             else if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("C"))
+             {
+                 dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (60.0 / average);
+             }
+             else if (dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString().Equals("D"))
+             {
+                 dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (40.0 / average);
+             }
+             else
+             {
+                 dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value = Convert.ToDouble(dataGridView2.Rows[e.RowIndex].Cells[column - 1].Value) + (20.0 / average);
+             }*/
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -313,13 +314,33 @@ namespace Evaluate
                     {
                         if (xn.Attributes[0].Value.Equals(dataGridView2.Rows[countstu].Cells[0].Value.ToString()))
                         {
-                            XmlNode task = doc1.CreateElement("task");
-                            task.Attributes.Append(CreateAttribute(task, "CourseName", course));
-                            task.Attributes.Append(CreateAttribute(task, "Task", taskname));
-                            task.Attributes.Append(CreateAttribute(task, "Rubric", name));
-                            task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
-                            xn.AppendChild(task);
-                            evaflag = false;
+                            editflag = true;
+                            XmlNodeList nls = xn.ChildNodes;
+                            foreach (XmlNode newxn in nls)
+                            {
+                                XmlElement neweva = (XmlElement)newxn;
+                                if (newxn.Attributes[0].Value.Equals(course) && newxn.Attributes[1].Value.Equals(taskname))
+                                {
+                                    neweva.SetAttribute("Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString());
+                                    editflag = false;
+                                    evaflag = false;
+                                    break;
+                                }
+                            }
+
+
+                            if (editflag)
+                            {
+                                XmlNode task = doc1.CreateElement("task");
+                                task.Attributes.Append(CreateAttribute(task, "CourseName", course));
+                                task.Attributes.Append(CreateAttribute(task, "Task", taskname));
+                                task.Attributes.Append(CreateAttribute(task, "Rubric", name));
+                                task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
+                                xn.AppendChild(task);
+                                evaflag = false;
+                            }
+
+
 
                         }
 
@@ -339,6 +360,7 @@ namespace Evaluate
                 }
 
                 doc1.Save("evaluate.xml");
-            }    }
+            }
+        }
     }
 }
