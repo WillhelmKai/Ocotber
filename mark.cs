@@ -20,6 +20,8 @@ namespace Evaluate
         public string name;
         public string course;
         public string taskname;
+        public string group;
+
         public int count = 0;
         public int sumcount;
         public bool flag = true;
@@ -37,7 +39,7 @@ namespace Evaluate
             name = dgvr.Cells[2].Value.ToString();
             taskname = dgvr.Cells[1].Value.ToString();
             course = dgvr.Cells[0].Value.ToString();
-
+            group = dgvr.Cells[3].Value.ToString();
             //  getData();
         }
 

@@ -42,7 +42,8 @@ namespace WindowsFormsApp6
                         {
                             CourseName = n.Attribute("CourseName").Value,
                             Task = n.Attribute("Task").Value,
-                            Rubric = n.Attribute("Rubric").Value
+                            Rubric = n.Attribute("Rubric").Value,
+                            Group = n.Attribute("Group").Value
                         };
             dataGridView1.DataSource = query.ToList();
             DataGridViewButtonColumn btn = new DataGridViewButtonColumn();

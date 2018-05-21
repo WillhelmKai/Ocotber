@@ -82,7 +82,7 @@ namespace course
         private void button1_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text == "" || comboBox2.Text == "")
+            if (textBox1.Text == "" || comboBox2.Text == "" || comboBox1.Text == "")
             {
                 MessageBox.Show("Please input all the information!!");
 
@@ -117,9 +117,12 @@ namespace course
                         node2.Attributes.Append(CreateAttribute(node2, "Task", textBox1.Text));
                         node2.Attributes.Append(CreateAttribute(node2, "Rubric", comboBox2.Text));
                         node2.Attributes.Append(CreateAttribute(node2, "Percentage", "0"));
+                        node2.Attributes.Append(CreateAttribute(node2, "Group", comboBox1.Text));
+
                         node1.AppendChild(node2);
 
                         doc.Save(filename);
+                        MessageBox.Show("Added Successful!!");
                     }
                     else
                     {
@@ -130,9 +133,12 @@ namespace course
                         node1.Attributes.Append(CreateAttribute(node1, "Task", textBox1.Text));
                         node1.Attributes.Append(CreateAttribute(node1, "Rubric", comboBox2.Text));
                         node1.Attributes.Append(CreateAttribute(node1, "Percentage", "0"));
+                        node1.Attributes.Append(CreateAttribute(node1, "Group", comboBox1.Text));
+
                         node.AppendChild(node1);
 
                         doc.Save(filename);
+                        MessageBox.Show("Added Successful!!");
                     }
 
                 }
@@ -148,10 +154,13 @@ namespace course
                     node.Attributes.Append(CreateAttribute(node, "CourseName", course));
                     node.Attributes.Append(CreateAttribute(node, "Task", textBox1.Text));
                     node.Attributes.Append(CreateAttribute(node, "Rubric", comboBox2.Text));
+                    node.Attributes.Append(CreateAttribute(node, "Percentage", "0"));
+                    node.Attributes.Append(CreateAttribute(node, "Group", comboBox1.Text));
+
                     root.AppendChild(node);
 
                     doc.Save(filename);
-
+                    MessageBox.Show("Added Successful!!");
                 }
 
                 XElement root1 = XElement.Load(filename);
