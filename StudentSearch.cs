@@ -74,7 +74,7 @@ namespace WindowsFormsApp6
                                         id = n.Parent.Attribute("id").Value,
                                         firstname = n.Parent.Attribute("FirstName").Value,
                                         lastname = n.Parent.Attribute("SurName").Value,
-                                        course = n.Attribute("course").Value,
+                                        course = n.Parent.Attribute("course").Value,
                                         grade = n.Attribute("grade").Value
                                     };
                         skinDataGridView1.DataSource = query.ToList();
@@ -96,7 +96,7 @@ namespace WindowsFormsApp6
                                         id = n.Parent.Attribute("id").Value,
                                         firstname = n.Parent.Attribute("FirstName").Value,
                                         lastname = n.Parent.Attribute("SurName").Value,
-                                        course = n.Attribute("course").Value,
+                                        course = n.Parent.Attribute("course").Value,
                                         grade = n.Attribute("grade").Value
                                     };
                         skinDataGridView1.DataSource = query.ToList();
@@ -138,7 +138,7 @@ namespace WindowsFormsApp6
                                         id = n.Parent.Attribute("id").Value,
                                         firstname = n.Parent.Attribute("FirstName").Value,
                                         lastname = n.Parent.Attribute("SurName").Value,
-                                        course = n.Attribute("course").Value,
+                                        course = n.Parent.Attribute("course").Value,
                                         grade = n.Attribute("grade").Value
                                     };
                         skinDataGridView1.DataSource = query.ToList();
@@ -152,6 +152,31 @@ namespace WindowsFormsApp6
                 {
                     MessageBox.Show("No such student!!");
                 }
+
+            }
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (File.Exists("gradelist.xml"))
+            {
+                XElement root1 = XElement.Load("gradelist.xml");
+                IEnumerable<XElement> address =
+                    from el in root1.Elements()
+                    where ((string)el.Element("grade").Attribute("grade")) == textBox2.Text.ToString()
+                    select el;
+
+                var query = from n in address.Elements()
+                            select new
+                            {
+                                id = n.Parent.Attribute("id").Value,
+                                firstname = n.Parent.Attribute("FirstName").Value,
+                                lastname = n.Parent.Attribute("SurName").Value,
+                                course = n.Parent.Attribute("course").Value,
+                                grade = n.Attribute("grade").Value
+                            };
+                skinDataGridView1.DataSource = query.ToList();
 
             }
 
