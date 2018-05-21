@@ -49,18 +49,13 @@ namespace WindowsFormsApp6
                 select el;
 
 
-            XElement xmlTree2 = new XElement("UIC",
-                from el in root1.Elements("student").Elements("grade")
-                where (((string)el.Attribute("course")) == CourseName)
-                select el);
-
-            var query = from n in xmlTree2.Elements()
+            var query = from n in address.Elements()
                         select new
                         {
-                            //id = n.Attribute("id").Value,
-                           // firstname = n.Parent.Attribute("FirstName").Value,
-                          //  lastname = n.Attribute("SurName").Value,
-                           course = n.Attribute("course").Value,
+                           id = n.Parent.Attribute("id").Value,
+                           firstname = n.Parent.Attribute("FirstName").Value,
+                           lastname = n.Parent.Attribute("SurName").Value,
+                           course = n.Parent.Attribute("course").Value,
                           grade = n.Attribute("grade").Value
                         };
             dataGridView1.DataSource = query.ToList();

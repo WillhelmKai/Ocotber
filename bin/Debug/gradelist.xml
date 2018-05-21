@@ -1,23 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <UIC>
-  <student id="1" FirstName="Will" SurName="A">
-    <grade course="CO" grade="100" />
-    <grade course="IT" grade="80" />
+  <student id="1" FirstName="Will" SurName="A" course="CO">
+    <grade grade="100" />
   </student>
-  <student id="2" FirstName="Bill" SurName="B">
-    <grade course="CO" grade="100" />
-    <grade course="IT" grade="50" />
+  <student id="2" FirstName="Bill" SurName="B" course="CO">
+    <grade grade="100" />
   </student>
-  <student id="3" FirstName="Jim" SurName="C">
-    <grade course="CO" grade="80" />
-    <grade course="IT" grade="90" />
+  <student id="3" FirstName="Jim" SurName="C" course="CO">
+    <grade grade="80" />
   </student>
-  <student id="4" FirstName="Sam" SurName="D">
-    <grade course="CO" grade="80" />
-    <grade course="IT" grade="100" />
+  <student id="4" FirstName="Sam" SurName="D" course="CO">
+    <grade grade="80" />
   </student>
-  <student id="5" FirstName="Tom" SurName="E">
-    <grade course="CO" grade="20" />
-    <grade course="IT" grade="70" />
+  <student id="5" FirstName="Tom" SurName="E" course="CO">
+    <grade grade="20" />
+  </student>
+  <student id="1" FirstName="Will" SurName="A" course="IT">
+    <grade grade="68" />
+  </student>
+  <student id="2" FirstName="Bill" SurName="B" course="IT">
+    <grade grade="44" />
+  </student>
+  <student id="3" FirstName="Jim" SurName="C" course="IT">
+    <grade grade="96" />
+  </student>
+  <student id="4" FirstName="Sam" SurName="D" course="IT">
+    <grade grade="100" />
+  </student>
+  <student id="5" FirstName="Tom" SurName="E" course="IT">
+    <grade grade="88" />
   </student>
 </UIC>
