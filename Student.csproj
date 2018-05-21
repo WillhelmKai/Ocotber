@@ -310,6 +310,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ICSharpCode.SharpZipLib.dll" />
+    <Content Include="itextsharp.dll" />
     <Content Include="Microsoft.Office.Interop.Excel.dll" />
   </ItemGroup>
   <ItemGroup>
