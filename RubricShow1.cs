@@ -21,10 +21,10 @@ namespace WindowsFormsApp3
         {
             InitializeComponent();
         }
-
+        public bool flag = true;
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            Form6 f6 = new Form6(dataGridView1.CurrentRow);
+            Form6 f6 = new Form6(dataGridView1.CurrentRow,flag);
             f6.Show();
             this.Hide();
         }
@@ -52,6 +52,23 @@ namespace WindowsFormsApp3
             Form1 f1 = new Form1();
             f1.Show();
             this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string xmlpath = @"rubric.xml";
+            XElement student = XElement.Load(xmlpath);
+            IEnumerable<XElement> stu = from st in student.Elements("courses")
+                                        where (string)st.Attribute("name") == textBox1.Text
+                                        select st;
+            var query1 = from n in stu.Elements()
+                         select new
+                         {
+                             id = n.Parent.Attribute("id").Value,
+                             name = n.Parent.Attribute("name").Value
+                         };
+            dataGridView1.DataSource = query1.ToList();
+            flag = false;
         }
     }
 }

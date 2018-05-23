@@ -25,11 +25,21 @@ namespace WindowsFormsApp3
 
         }
 
-        public Form6(DataGridViewRow myDGVR)
+        public Form6(DataGridViewRow myDGVR,bool flag)
         {
-            InitializeComponent();
-            dgvr = myDGVR;
-            name = dgvr.Cells[1].Value.ToString();
+            if(flag)
+            {
+                InitializeComponent();
+                dgvr = myDGVR;
+                name = dgvr.Cells[1].Value.ToString();
+            }
+            else
+            {
+                InitializeComponent();
+                dgvr = myDGVR;
+                name = dgvr.Cells[2].Value.ToString();
+            }
+           
         }
 
         public Form6(string updatename)
@@ -48,7 +58,7 @@ namespace WindowsFormsApp3
 
         private void Form6_Load(object sender, EventArgs e)
         {
-          
+           
             string strPath = @"rubric.xml";
             XElement student = XElement.Load(strPath);
             IEnumerable<XElement> stu = from st in student.Elements("courses")

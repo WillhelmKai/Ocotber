@@ -20,7 +20,7 @@ namespace Evaluate
         {
             InitializeComponent();
         }
-
+        public bool flag = true;
         private void Final_grade_page_Load(object sender, EventArgs e)
         {
             XmlDocument myxml = new XmlDocument();
@@ -45,15 +45,55 @@ namespace Evaluate
 
         private void button2_Click(object sender, EventArgs e)
         {
+           
             //MessageBox.Show(comboBox1.SelectedItem.ToString());
             if (comboBox1.SelectedItem != null)
             {
-                ProportionOfSection proportion = new ProportionOfSection(comboBox1.SelectedItem.ToString());
-                this.Hide();
-                proportion.ShowDialog();
+                flag = true;
+                XmlDataDocument xmlDoc = new XmlDataDocument();
+                xmlDoc.Load("task.xml");
+                XmlNodeList nodeList = xmlDoc.SelectSingleNode("UIC").ChildNodes;
+                foreach (XmlNode xn in nodeList)
+                {
+                    XmlElement xe = (XmlElement)xn;
+                    if (xe.GetAttribute("CourseName") == comboBox1.SelectedItem.ToString())
+                    {
+                        XmlNodeList nodeList1 = xn.ChildNodes;
+                        foreach (XmlNode xn1 in nodeList1)
+                        {
+                            XmlElement newxe = (XmlElement)xn1;
+                            if (newxe.GetAttribute("finish") == "N")
+                            {
+                                flag = false;
+                            }
+                        }
+                    }
+                }
+                xmlDoc.Save("task.xml");
+
+                if(flag)
+                {
+                    ProportionOfSection proportion = new ProportionOfSection(comboBox1.SelectedItem.ToString());
+                    this.Hide();
+                    proportion.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("You haven't evaluate all assignments for course you selected yet!");
+                    Home form3 = new Home();
+                    this.Hide();
+                    form3.ShowDialog();
+                }
+
+
+
+
+                
+                
             }
             else
                 MessageBox.Show("Please select a course first!");
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

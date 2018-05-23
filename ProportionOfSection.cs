@@ -29,19 +29,19 @@ namespace Evaluate
         }
         public String transform(String grade )
         {
-            if(int.Parse(grade)>=80)
+            if(double.Parse(grade)>=80)
             { 
                 return "A";
             }
-            else if(int.Parse(grade) >= 60)
+            else if(double.Parse(grade) >= 60)
             {
                 return "B";
             }
-            else if (int.Parse(grade) >= 40)
+            else if (double.Parse(grade) >= 40)
             {
                 return "C";
             }
-            else if (int.Parse(grade) >= 20)
+            else if (double.Parse(grade) >= 20)
             {
                 return "D";
             }
@@ -119,9 +119,11 @@ namespace Evaluate
                     XmlDataDocument xmlDoc0 = new XmlDataDocument();
                     xmlDoc0.Load("gradelist.xml"); XmlDataDocument xmlDoc1 = new XmlDataDocument();
                     xmlDoc1.Load("evaluate.xml");
-                    XmlNodeList newnodeList = xmlDoc1.SelectSingleNode("UIC").ChildNodes; XmlDataDocument xmlDoc2 = new XmlDataDocument();
+                    XmlNodeList newnodeList = xmlDoc1.SelectSingleNode("UIC").ChildNodes;
+                    XmlDataDocument xmlDoc2 = new XmlDataDocument();
                     xmlDoc2.Load("student.xml");
-                    XmlNodeList newnodeList1 = xmlDoc2.SelectSingleNode("Students").ChildNodes; double sumgrade;
+                    XmlNodeList newnodeList1 = xmlDoc2.SelectSingleNode("Students").ChildNodes;
+                    double sumgrade;
                     foreach (XmlNode xn in newnodeList)
                     {
                         XmlElement xe = (XmlElement)xn;
@@ -163,6 +165,7 @@ namespace Evaluate
                                     foreach (XmlNode grade in coursenode.ChildNodes)
                                     {
                                         XmlElement newgrade = (XmlElement)grade;
+                                        MessageBox.Show(sumgrade.ToString());
                                         newgrade.SetAttribute("grade", transform(sumgrade.ToString()));
                                         courseflag = false;
                                     }

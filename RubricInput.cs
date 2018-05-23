@@ -81,37 +81,37 @@ namespace WindowsFormsApp3
         private void button1_Click(object sender, EventArgs e)
         {
 
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            if (string.IsNullOrWhiteSpace(textBox1.Text) && text)
             {
                 MessageBox.Show("You should enter content in the textbox");
                 text = false;
             }
-            if (string.IsNullOrWhiteSpace(textBox2.Text))
+            if (string.IsNullOrWhiteSpace(textBox2.Text) && text)
             {
                 MessageBox.Show("You should enter content in the textbox");
                 text = false;
             }
-            if (string.IsNullOrWhiteSpace(textBox3.Text))
+            if (string.IsNullOrWhiteSpace(textBox3.Text) && text)
             {
                 MessageBox.Show("You should enter content in the textbox");
                 text = false;
             }
-            if (string.IsNullOrWhiteSpace(textBox4.Text))
+            if (string.IsNullOrWhiteSpace(textBox4.Text) && text)
             {
                 MessageBox.Show("You should enter content in the textbox");
                 text = false;
             }
-            if (string.IsNullOrWhiteSpace(textBox5.Text))
+            if (string.IsNullOrWhiteSpace(textBox5.Text) && text)
             {
                 MessageBox.Show("You should enter content in the textbox");
                 text = false;
             }
-            if (string.IsNullOrWhiteSpace(textBox6.Text))
+            if (string.IsNullOrWhiteSpace(textBox6.Text) && text)
             {
                 MessageBox.Show("You should enter content in the textbox");
                 text = false;
             }
-            if (string.IsNullOrWhiteSpace(textBox7.Text))
+            if (string.IsNullOrWhiteSpace(textBox7.Text) && text)
             {
                 MessageBox.Show("You should enter content in the textbox");
                 text = false;

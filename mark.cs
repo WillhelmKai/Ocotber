@@ -351,11 +351,19 @@ namespace Evaluate
 
         private void button2_Click(object sender, EventArgs e)
         {
+            int i;
+            for (i = 0; i < dataGridView2.RowCount; i++)
+            {
+                if (dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString() == "0" && !dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString().Equals("morethan3days"))
+                {
+                    flag = false;
+                }
+            }
             if (group.Equals("N"))
             {
                 if (!File.Exists("evaluate.xml"))
                 {
-                    int i;
+                  
                     XmlDocument doc = new XmlDocument();
                     XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
                     doc.AppendChild(dec);
@@ -365,13 +373,13 @@ namespace Evaluate
                     //create the "Students" element
                     /*XmlElement element = doc.CreateElement("Students");
                     root.AppendChild(element);*/
-                    for (i = 0; i < dataGridView2.RowCount; i++)
+                  /*  for (i = 0; i < dataGridView2.RowCount; i++)
                     {
-                        if (dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString() == "0")
+                        if (dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString() == "0" )
                         {
                             flag = false;
                         }
-                    }
+                    }*/
 
 
 
@@ -391,6 +399,30 @@ namespace Evaluate
                         }
                         doc.Save("evaluate.xml");
                         MessageBox.Show("XML File created ! ");
+                        //improve task
+
+
+                        XmlDataDocument xmlDoc = new XmlDataDocument();
+                        xmlDoc.Load("task.xml");
+                        XmlNodeList nodeList = xmlDoc.SelectSingleNode("UIC").ChildNodes;
+                        foreach (XmlNode xn in nodeList)
+                        {
+                            XmlElement xe = (XmlElement)xn;
+                            if (xe.GetAttribute("CourseName") == course)
+                            {
+                                XmlNodeList nodeList1 = xn.ChildNodes;
+                                foreach (XmlNode xn1 in nodeList1)
+                                {
+                                    XmlElement newxe = (XmlElement)xn1;
+                                    if (newxe.GetAttribute("Task") == taskname)
+                                    {
+                                        xn1.Attributes[5].Value = "Y";
+                                    }
+                                }
+                            }
+                        }
+                        xmlDoc.Save("task.xml");
+
                     }
                     else
                     {
@@ -399,72 +431,106 @@ namespace Evaluate
                 }
                 else
                 {
-                    int countstu = 0;
-                    XmlDocument doc1 = new XmlDocument();
-                    doc1.Load("evaluate.xml");
-                    XmlNode node = doc1.SelectSingleNode("//UIC");
-                    XmlNodeList xnList = node.ChildNodes;
-                    for (; countstu < dataGridView2.RowCount; countstu++)
+                    if(flag)
                     {
-                        evaflag = true;
-                        foreach (XmlNode xn in xnList)
+                        int countstu = 0;
+                        XmlDocument doc1 = new XmlDocument();
+                        doc1.Load("evaluate.xml");
+                        XmlNode node = doc1.SelectSingleNode("//UIC");
+                        XmlNodeList xnList = node.ChildNodes;
+                        for (; countstu < dataGridView2.RowCount; countstu++)
                         {
-                            if (xn.Attributes[0].Value.Equals(dataGridView2.Rows[countstu].Cells[0].Value.ToString()))
+                            evaflag = true;
+                            foreach (XmlNode xn in xnList)
                             {
-                                editflag = true;
-                                XmlNodeList nls = xn.ChildNodes;
-                                foreach (XmlNode newxn in nls)
+                                if (xn.Attributes[0].Value.Equals(dataGridView2.Rows[countstu].Cells[0].Value.ToString()))
                                 {
-                                    XmlElement neweva = (XmlElement)newxn;
-                                    if (newxn.Attributes[0].Value.Equals(course) && newxn.Attributes[1].Value.Equals(taskname))
+                                    editflag = true;
+                                    XmlNodeList nls = xn.ChildNodes;
+                                    foreach (XmlNode newxn in nls)
                                     {
-                                        neweva.SetAttribute("Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString());
-                                        editflag = false;
-                                        evaflag = false;
-                                        break;
+                                        XmlElement neweva = (XmlElement)newxn;
+                                        if (newxn.Attributes[0].Value.Equals(course) && newxn.Attributes[1].Value.Equals(taskname))
+                                        {
+                                            neweva.SetAttribute("Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString());
+                                            editflag = false;
+                                            evaflag = false;
+                                            break;
+                                        }
                                     }
+
+
+                                    if (editflag)
+                                    {
+                                        XmlNode task = doc1.CreateElement("task");
+                                        task.Attributes.Append(CreateAttribute(task, "CourseName", course));
+                                        task.Attributes.Append(CreateAttribute(task, "Task", taskname));
+                                        task.Attributes.Append(CreateAttribute(task, "Rubric", name));
+                                        task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
+                                        xn.AppendChild(task);
+                                        evaflag = false;
+                                    }
+
+
+
                                 }
-
-
-                                if (editflag)
-                                {
-                                    XmlNode task = doc1.CreateElement("task");
-                                    task.Attributes.Append(CreateAttribute(task, "CourseName", course));
-                                    task.Attributes.Append(CreateAttribute(task, "Task", taskname));
-                                    task.Attributes.Append(CreateAttribute(task, "Rubric", name));
-                                    task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
-                                    xn.AppendChild(task);
-                                    evaflag = false;
-                                }
-
-
 
                             }
-
+                            if (evaflag)
+                            {
+                                XmlNode courses = doc1.CreateElement("student");
+                                courses.Attributes.Append(CreateAttribute(courses, "id", dataGridView2.Rows[countstu].Cells[0].Value.ToString()));
+                                node.AppendChild(courses);
+                                XmlNode task = doc1.CreateElement("task");
+                                task.Attributes.Append(CreateAttribute(task, "CourseName", course));
+                                task.Attributes.Append(CreateAttribute(task, "Task", taskname));
+                                task.Attributes.Append(CreateAttribute(task, "Rubric", name));
+                                task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
+                                courses.AppendChild(task);
+                            }
                         }
-                        if (evaflag)
+
+                        doc1.Save("evaluate.xml");
+                        MessageBox.Show("You have saved file");
+                        //improve task
+
+                        XmlDataDocument xmlDoc = new XmlDataDocument();
+                        xmlDoc.Load("task.xml");
+                        XmlNodeList nodeList = xmlDoc.SelectSingleNode("UIC").ChildNodes;
+                        foreach (XmlNode xn in nodeList)
                         {
-                            XmlNode courses = doc1.CreateElement("student");
-                            courses.Attributes.Append(CreateAttribute(courses, "id", dataGridView2.Rows[countstu].Cells[0].Value.ToString()));
-                            node.AppendChild(courses);
-                            XmlNode task = doc1.CreateElement("task");
-                            task.Attributes.Append(CreateAttribute(task, "CourseName", course));
-                            task.Attributes.Append(CreateAttribute(task, "Task", taskname));
-                            task.Attributes.Append(CreateAttribute(task, "Rubric", name));
-                            task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
-                            courses.AppendChild(task);
+                            XmlElement xe = (XmlElement)xn;
+                            if (xe.GetAttribute("CourseName") == course)
+                            {
+                                XmlNodeList nodeList1 = xn.ChildNodes;
+                                foreach (XmlNode xn1 in nodeList1)
+                                {
+                                    XmlElement newxe = (XmlElement)xn1;
+                                    if (newxe.GetAttribute("Task") == taskname)
+                                    {
+                                        xn1.Attributes[5].Value = "Y";
+                                    }
+                                }
+                            }
                         }
-                    }
+                        xmlDoc.Save("task.xml");
 
-                    doc1.Save("evaluate.xml");
+                    }
+                    else
+
+                    {
+                        MessageBox.Show("All students should be graded");
+                    }
+                    
                 }
+
             }
             else
             {
                 
                if (!File.Exists("evaluate.xml"))
                 {
-                    int i;
+                    
                     XmlDocument doc = new XmlDocument();
                     XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
                     doc.AppendChild(dec);
@@ -472,13 +538,7 @@ namespace Evaluate
                     XmlElement root = doc.CreateElement("UIC");
                     doc.AppendChild(root);
                    
-                    for (i = 0; i < dataGridView2.RowCount; i++)
-                    {
-                        if (dataGridView2.Rows[i].Cells[dataGridView2.ColumnCount - 1].Value.ToString() == "0")
-                        {
-                            flag = false;
-                        }
-                    }
+                   
 
 
 
@@ -508,6 +568,29 @@ namespace Evaluate
                         }
                         doc.Save("evaluate.xml");
                         MessageBox.Show("XML File created ! ");
+                        //improve task
+
+                        XmlDataDocument xmlDoc = new XmlDataDocument();
+                        xmlDoc.Load("task.xml");
+                        XmlNodeList nodeList2 = xmlDoc.SelectSingleNode("UIC").ChildNodes;
+                        foreach (XmlNode xn in nodeList2)
+                        {
+                            XmlElement xe = (XmlElement)xn;
+                            if (xe.GetAttribute("CourseName") == course)
+                            {
+                                XmlNodeList nodeList1 = xn.ChildNodes;
+                                foreach (XmlNode xn1 in nodeList1)
+                                {
+                                    XmlElement newxe = (XmlElement)xn1;
+                                    if (newxe.GetAttribute("Task") == taskname)
+                                    {
+                                        xn1.Attributes[5].Value = "Y";
+                                    }
+                                }
+                            }
+                        }
+                        xmlDoc.Save("task.xml");
+
                     }
                     else
                     {
@@ -516,72 +599,104 @@ namespace Evaluate
                 }
                 else
                 {
-                    int countstu = 0;
-                    XmlDocument doc1 = new XmlDocument();
-                    doc1.Load("evaluate.xml");
-                    XmlNode node = doc1.SelectSingleNode("//UIC");
-                    XmlNodeList xnList = node.ChildNodes;
-                    for (; countstu < dataGridView2.RowCount; countstu++)
+                    if(flag)
                     {
-                        evaflag = true;
-
-                        XmlDocument groupdoc = new XmlDocument();
-                        groupdoc.Load("student.xml");
-                        string[] array = new string[100];
-                        string stupath = "//task[@Group='" + dataGridView2.Rows[countstu].Cells[0].Value.ToString() + "']";
-                        XmlNodeList nodeList = groupdoc.SelectNodes(stupath);
-                        foreach (XmlNode item in nodeList)
+                        int countstu = 0;
+                        XmlDocument doc1 = new XmlDocument();
+                        doc1.Load("evaluate.xml");
+                        XmlNode node = doc1.SelectSingleNode("//UIC");
+                        XmlNodeList xnList = node.ChildNodes;
+                        for (; countstu < dataGridView2.RowCount; countstu++)
                         {
-                            XmlElement newitem = (XmlElement)item;
-                            foreach (XmlNode xn in xnList)
+                            evaflag = true;
+
+                            XmlDocument groupdoc = new XmlDocument();
+                            groupdoc.Load("student.xml");
+                            string[] array = new string[100];
+                            string stupath = "//task[@Group='" + dataGridView2.Rows[countstu].Cells[0].Value.ToString() + "']";
+                            XmlNodeList nodeList = groupdoc.SelectNodes(stupath);
+                            foreach (XmlNode item in nodeList)
                             {
-                                if (xn.Attributes[0].Value.Equals(newitem.GetAttribute("ID")))
+                                XmlElement newitem = (XmlElement)item;
+                                foreach (XmlNode xn in xnList)
                                 {
-                                    editflag = true;
-                                    XmlNodeList nls = xn.ChildNodes;
-                                    foreach (XmlNode newxn in nls)
+                                    if (xn.Attributes[0].Value.Equals(newitem.GetAttribute("ID")))
                                     {
-                                        XmlElement neweva = (XmlElement)newxn;
-                                        if (newxn.Attributes[0].Value.Equals(course) && newxn.Attributes[1].Value.Equals(taskname))
+                                        editflag = true;
+                                        XmlNodeList nls = xn.ChildNodes;
+                                        foreach (XmlNode newxn in nls)
                                         {
-                                            neweva.SetAttribute("Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString());
-                                            editflag = false;
+                                            XmlElement neweva = (XmlElement)newxn;
+                                            if (newxn.Attributes[0].Value.Equals(course) && newxn.Attributes[1].Value.Equals(taskname))
+                                            {
+                                                neweva.SetAttribute("Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString());
+                                                editflag = false;
+                                                evaflag = false;
+                                                break;
+                                            }
+                                        }
+                                        if (editflag)
+                                        {
+                                            XmlNode task = doc1.CreateElement("task");
+                                            task.Attributes.Append(CreateAttribute(task, "CourseName", course));
+                                            task.Attributes.Append(CreateAttribute(task, "Task", taskname));
+                                            task.Attributes.Append(CreateAttribute(task, "Rubric", name));
+                                            task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
+                                            xn.AppendChild(task);
                                             evaflag = false;
-                                            break;
                                         }
                                     }
-                                    if (editflag)
+                                }
+                                if (evaflag)
+                                {
+                                    XmlNode courses = doc1.CreateElement("student");
+                                    courses.Attributes.Append(CreateAttribute(courses, "id", newitem.GetAttribute("ID")));
+                                    node.AppendChild(courses);
+                                    XmlNode task = doc1.CreateElement("task");
+                                    task.Attributes.Append(CreateAttribute(task, "CourseName", course));
+                                    task.Attributes.Append(CreateAttribute(task, "Task", taskname));
+                                    task.Attributes.Append(CreateAttribute(task, "Rubric", name));
+                                    task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
+                                    courses.AppendChild(task);
+                                }
+                            }
+
+
+
+
+                        }
+
+                        doc1.Save("evaluate.xml");
+                        MessageBox.Show("You have saved file");
+
+                        //improve task
+
+                        XmlDataDocument xmlDoc = new XmlDataDocument();
+                        xmlDoc.Load("task.xml");
+                        XmlNodeList nodeList2 = xmlDoc.SelectSingleNode("UIC").ChildNodes;
+                        foreach (XmlNode xn in nodeList2)
+                        {
+                            XmlElement xe = (XmlElement)xn;
+                            if (xe.GetAttribute("CourseName") == course)
+                            {
+                                XmlNodeList nodeList1 = xn.ChildNodes;
+                                foreach (XmlNode xn1 in nodeList1)
+                                {
+                                    XmlElement newxe = (XmlElement)xn1;
+                                    if (newxe.GetAttribute("Task") == taskname)
                                     {
-                                        XmlNode task = doc1.CreateElement("task");
-                                        task.Attributes.Append(CreateAttribute(task, "CourseName", course));
-                                        task.Attributes.Append(CreateAttribute(task, "Task", taskname));
-                                        task.Attributes.Append(CreateAttribute(task, "Rubric", name));
-                                        task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
-                                        xn.AppendChild(task);
-                                        evaflag = false;
+                                        xn1.Attributes[5].Value = "Y";
                                     }
                                 }
                             }
-                            if (evaflag)
-                            {
-                                XmlNode courses = doc1.CreateElement("student");
-                                courses.Attributes.Append(CreateAttribute(courses, "id", newitem.GetAttribute("ID")));
-                                node.AppendChild(courses);
-                                XmlNode task = doc1.CreateElement("task");
-                                task.Attributes.Append(CreateAttribute(task, "CourseName", course));
-                                task.Attributes.Append(CreateAttribute(task, "Task", taskname));
-                                task.Attributes.Append(CreateAttribute(task, "Rubric", name));
-                                task.Attributes.Append(CreateAttribute(task, "Grade", dataGridView2.Rows[countstu].Cells[dataGridView2.ColumnCount - 1].Value.ToString()));
-                                courses.AppendChild(task);
-                            }
                         }
-
-
-                       
-                       
+                        xmlDoc.Save("task.xml");
                     }
-
-                    doc1.Save("evaluate.xml");
+                    else
+                    {
+                        MessageBox.Show("All students should be graded");
+                    }
+                    
                 }
             }
                 

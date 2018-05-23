@@ -22,49 +22,96 @@ namespace WindowsFormsApp3
             InitializeComponent();
     
         }
-        
 
+        public bool flag = true;
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-            string xmlpath = @"rubric.xml";
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(xmlpath);
-            XmlNode root = xmlDoc.SelectSingleNode("UIC");
-            XmlNodeList xnList = root.ChildNodes;
-            foreach(XmlNode xn in xnList)
+            if(flag)
             {
-                if (int.Parse(xn.Attributes[0].Value)== this.dataGridView1.CurrentRow.Index+1)
+                string xmlpath = @"rubric.xml";
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(xmlpath);
+                XmlNode root = xmlDoc.SelectSingleNode("UIC");
+                XmlNodeList xnList = root.ChildNodes;
+
+                foreach (XmlNode xn in xnList)
                 {
-                   
-                    root.RemoveChild(xn);
-                    
+                    if (xn.Attributes[0].Value == dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString())
+                    {
+
+                        root.RemoveChild(xn);
+
+                    }
                 }
+                xmlDoc.Save(xmlpath);
+                XmlNodeList xnList2 = root.ChildNodes;
+                foreach (XmlNode xn in xnList2)
+                {
+                    if (int.Parse(xn.Attributes[0].Value) > int.Parse(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()))
+                    {
+                        XmlElement xe = (XmlElement)xn;
+                        xe.SetAttribute("id", Convert.ToString(int.Parse(xn.Attributes[0].Value) - 1));
+
+
+                    }
+                }
+                xmlDoc.Save(xmlpath);
+                //update
+
+                XDocument xdoc = XDocument.Load(xmlpath);
+
+                var query = from n in xdoc.Descendants("courses")
+                            select new
+                            {
+                                id = n.Attribute("id").Value,
+                                name = n.Attribute("name").Value
+                            };
+                dataGridView1.DataSource = query.ToList();
             }
-            xmlDoc.Save(xmlpath);
-            XmlNodeList xnList2 = root.ChildNodes;
-            foreach (XmlNode xn in xnList2)
+            else
             {
-                if (int.Parse(xn.Attributes[0].Value) > this.dataGridView1.CurrentRow.Index + 1)
+                string xmlpath = @"rubric.xml";
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(xmlpath);
+                XmlNode root = xmlDoc.SelectSingleNode("UIC");
+                XmlNodeList xnList = root.ChildNodes;
+
+                foreach (XmlNode xn in xnList)
                 {
-                    XmlElement xe = (XmlElement)xn;
-                    xe.SetAttribute("id", Convert.ToString(int.Parse(xn.Attributes[0].Value) - 1));
-                    
+                    if (xn.Attributes[0].Value == dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString())
+                    {
 
+                        root.RemoveChild(xn);
+
+                    }
                 }
+                xmlDoc.Save(xmlpath);
+                XmlNodeList xnList2 = root.ChildNodes;
+                foreach (XmlNode xn in xnList2)
+                {
+                    if (int.Parse(xn.Attributes[0].Value) > int.Parse(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()))
+                    {
+                        XmlElement xe = (XmlElement)xn;
+                        xe.SetAttribute("id", Convert.ToString(int.Parse(xn.Attributes[0].Value) - 1));
+
+
+                    }
+                }
+                xmlDoc.Save(xmlpath);
+                //update
+
+                XDocument xdoc = XDocument.Load(xmlpath);
+
+                var query = from n in xdoc.Descendants("courses")
+                            select new
+                            {
+                                id = n.Attribute("id").Value,
+                                name = n.Attribute("name").Value
+                            };
+                dataGridView1.DataSource = query.ToList();
             }
-            xmlDoc.Save(xmlpath);
-            //update
+           
 
-            XDocument xdoc = XDocument.Load(xmlpath);
-
-            var query = from n in xdoc.Descendants("courses")
-                        select new
-                        {
-                            id = n.Attribute("id").Value,
-                            name = n.Attribute("name").Value
-                        };
-            dataGridView1.DataSource = query.ToList();
            
 
         }
@@ -92,6 +139,24 @@ namespace WindowsFormsApp3
             Form1 f1 = new Form1();
             f1.Show();
             this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            string strPath = @"rubric.xml";
+            XElement student = XElement.Load(strPath);
+            IEnumerable<XElement> stu = from st in student.Elements("courses")
+                                        where (string)st.Attribute("name") == textBox1.Text
+                                        select st;
+            var query1 = from n in stu.Elements()
+                         select new
+                         {
+                             id = n.Parent.Attribute("id").Value,
+                             name = n.Parent.Attribute("name").Value
+                         };
+            dataGridView1.DataSource = query1.ToList();
+            flag = false;
         }
     }
 }
